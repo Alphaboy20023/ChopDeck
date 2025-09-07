@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="{% static 'css/index.css' %}">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=chat_bubble" />
+
 
 
   <title>App</title>
@@ -18,12 +22,13 @@
       background-position: center;
       height: 100vh;
       width: 100%;
+      border-radius: 20px;
 
     }
   </style>
 </head>
 
-<body>
+<body class="relative">
   <header class="bg-red-700">
     <nav class="max-w-7xl mx-auto flex items-center justify-between p-5 text-white">
       <!-- Logo -->
@@ -38,7 +43,7 @@
       <ul id="menu" class="hidden lg:flex space-x-6 text-xl">
         <li><a href="index.html" class="hover:text-blue-600">Home</a></li>
         <li><a href="#" class="hover:text-blue-600">Menu</a></li>
-        <li><a href="#" class="hover:text-blue-600">Our Services</a></li>
+        <li><a href="#" class="hover:text-blue-600">About</a></li>
         <li><a href="#" class="hover:text-blue-600">Blog</a></li>
         <li><a href="#" class="hover:text-blue-600">Contact Us</a></li>
       </ul>
@@ -49,7 +54,7 @@
       <ul class="flex flex-col space-y-3">
         <li><a href="{% url 'index' %}" class="block hover:text-blue-600">Home</a></li>
         <li><a href="#" class="block hover:text-blue-600">Menu</a></li>
-        <li><a href="#" class="block hover:text-blue-600">Our Services</a></li>
+        <li><a href="#" class="block hover:text-blue-600">About</a></li>
         <li><a href="#" class="block hover:text-blue-600">Blog</a></li>
         <li><a href="#" class="block hover:text-blue-600">Contact Us</a></li>
       </ul>
@@ -58,7 +63,7 @@
     <section class=" text-white  px-5 py-2 overflow-hidden gap-4 flex items-center">
       <div class="w-full lg:px-12 mx-auto lg:flex lg:items-center lg:justify-between relative z-10">
         <!-- Left Content -->
-        <div class="lg:w-full space-y-6">
+        <div class="lg:w-full space-y-6 py-6">
           <img src="{% static 'Img/jollofRice.jpg' %}" alt="spinning-rice" class="text-xl p-3">
           <span class="text-xl font-medium tracking-wide uppercase text-green-400 sub-title">
             Taste the Unique Flavor
@@ -104,6 +109,7 @@
     </section>
   </header>
 
+  <!-- Our Services -->
   <section class="flex flex-col lg:flex-row gap-10 items-center px-6 py-12 max-w-full mx-auto">
     <!-- Left image -->
     <img src="{% static 'Img/ourServices.png' %}" alt="" class="w-full lg:w-1/2" data-aos="fade-right">
@@ -116,7 +122,7 @@
       <!-- Cards container -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-5" data-aos="fade-up">
         <!-- First card -->
-        <div class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3">
+        <div class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3 text-start">
           <img src="" alt="rest" class="mx-auto lg:mx-0">
           <h1 class="text-lg sm:text-xl font-bold">Local Restaurants</h1>
           <p class="text-sm sm:text-base">
@@ -126,7 +132,7 @@
         </div>
 
         <!-- Second card -->
-        <div class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3">
+        <div class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3 text-start">
           <img src="" alt="rest" class="mx-auto lg:mx-0">
           <h1 class="text-lg sm:text-xl font-bold ">Food Delivery</h1>
           <p class="text-sm sm:text-base">
@@ -137,9 +143,9 @@
 
         <!-- Third card (centered below both) -->
         <div
-          class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3 md:col-span-2 md:w-2/3 lg:w-1/2 mx-auto" >
+          class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3 md:col-span-2 md:w-2/3 lg:w-1/2 mx-auto text-start">
           <img src="" alt="rest" class="mx-auto lg:mx-0">
-          <h1 class="text-lg sm:text-xl font-bold" >Health Food</h1>
+          <h1 class="text-lg sm:text-xl font-bold">Health Food</h1>
           <p class="text-sm sm:text-base">
             Enjoy restaurant-quality meals comfort of home with our fast and reliable food delivery service craving a
             delicious swallow.
@@ -149,23 +155,337 @@
     </aside>
   </section>
 
-  <section class="flex flex-col lg:flex-row gap-10 bg-gray-100 items-center px-6 py-12 max-w-full mx-auto">
+  <!-- How it works -->
+  <section class="flex flex-col lg:flex-row gap-10 bg-gray-100 items-center px-9 py-7 max-w-full mx-auto">
     <!-- Left content -->
-    <aside class="text-center lg:text-left space-y-6 w-full lg:w-1/2" >
-      <p class="text-green-600 text-2xl text-center font-semibold" data-aos="fade-up">How it Works</p>
-      <h1 class="text-2xl sm:text-3xl font-bold">Renowned For Crafting The Finest Burger In Your Town.</h1>
+    <aside class="text-center lg:text-left space-y-6 w-full lg:w-1/2 p-2">
+      <img src="{% static 'Img/how-it-works-bouncingpic.png' %}" alt=""
+        class="animate-bounce [animation-duration:7s] relative right-12">
+      <p class="text-green-600 text-2xl text-center font-semibold">How it Works</p>
+      <h1 class="text-2xl sm:text-3xl font-bold">Renowned For Crafting The Finest Poundo Yam In Your Town.</h1>
       <p>At ChopDeck we’re passionate about serving the best meals made with fresh and authentic flavors. Whether you're
         dining in or ordering from the comfort of your home, our fast and reliable food delivery service</p>
 
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="flex items-center gap-3" data-aos="fade-right">
+          <i class="ti ti-brand-deliveroo text-2xl rounded-full p-2 bg-orange-300"></i>
+          <h4 class="text-lg font-semibold">Choose Your Favorite</h4>
+        </div>
+
+        <div class="flex items-center gap-3" data-aos="fade-left">
+          <i class="ti ti-moped text-2xl rounded-full p-2 bg-orange-300"></i>
+          <h4 class="text-lg font-semibold">Cash On Delivery</h4>
+        </div>
+
+        <div class="flex items-center gap-3" data-aos="fade-right">
+          <i class="ti ti-burger text-2xl rounded-full p-2 bg-orange-300"></i>
+          <h4 class="text-lg font-semibold">Food Health Check</h4>
+        </div>
+
+        <div class="flex items-center gap-3" data-aos="fade-left">
+          <i class="ti ti-tools-kitchen-2 text-2xl rounded-full p-2 bg-orange-300"></i>
+          <h4 class="text-lg font-semibold">Eat And Worry No More</h4>
+        </div>
+      </div>
     </aside>
     <!-- Right image -->
-    <img src="{% static 'Img/ourServices.png' %}" alt="" class="w-full lg:w-1/2">
+    <img src="{% static 'Img/poundedyam.jpg' %}" alt="" class="w-full lg:w-1/2" data-aos="fade-left">
   </section>
+
+  <!-- Menu Area -->
+  <section class="py-20 bg-cover bg-center" style="background-image: url('assets/images/hero/menu-bg.png')">
+    <div class="container mx-auto px-6" x-data="{ tab: 'all' }">
+      <!-- Section Title -->
+      <div class="text-center mb-10">
+        <span class="text-green-600 text-lg font-semibold">Popular Menu</span>
+        <h2 class="text-3xl md:text-4xl font-bold">Choose Your Favorite Food</h2>
+      </div>
+
+      <!-- Tabs -->
+      <ul class="flex justify-center gap-4 mb-10 flex-wrap">
+        <li><button @click="tab='all'" :class="tab==='all' ? 'bg-green-600 text-white' : 'bg-gray-200'"
+            class="px-5 py-2 rounded-lg font-semibold">All</button></li>
+        <li><button @click="tab='beverage'" :class="tab==='snacks' ? 'bg-green-600 text-white' : 'bg-gray-200'"
+            class="px-5 py-2 rounded-lg font-semibold">Snacks</button></li>
+        <li><button @click="tab='dessert'" :class="tab==='dessert' ? 'bg-green-600 text-white' : 'bg-gray-200'"
+            class="px-5 py-2 rounded-lg font-semibold">Desserts</button></li>
+        <li><button @click="tab='dishes'" :class="tab==='dishes' ? 'bg-green-600 text-white' : 'bg-gray-200'"
+            class="px-5 py-2 rounded-lg font-semibold">Main Dishes</button></li>
+        <li><button @click="tab='seafood'" :class="tab==='seafood' ? 'bg-green-600 text-white' : 'bg-gray-200'"
+            class="px-5 py-2 rounded-lg font-semibold">Sea Food</button></li>
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+        <!-- All -->
+        <div x-show="tab==='all'" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 col-span-full " data-aos="fade-up">
+          <template x-for="item in [
+          {img: '{% static 'Img/Afang.jpg' %}', title:'Afang Soup', desc:'Chilled tomato, bitter-leaf', price: '₦2,500'},
+          {img: '{% static 'Img/burger.jpeg' %}', title:'Hamburger', desc:'Ground beef, Cheese, Ketchup', price: '₦3,500'},
+          {img: '{% static 'Img/Yam-and-Fried-Egg.jpeg' %}', title:'Yam and Fried Egg', desc:'Yam Slices, peppers-dill Fried Egg', price: '₦1,800'},
+          {img: '{% static 'Img/ewa-agoyin.jpg' %}', title:'Ewa Agoyin', desc:'beans, plantain', price: '₦1,600'}
+        ]" :key="item.title">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition">
+              <img :src="item.img" alt="" class="w-full h-40 object-cover">
+              <div class="p-4 space-y-5">
+                <h3 class="text-xl font-bold" x-text="item.title"></h3>
+                <span class="text-gray-600" x-text="item.desc"></span>
+                <div class="flex justify-between items-center mt-3">
+                  <a href="cart.html" class="bg-green-600 text-white px-4 py-1 rounded-lg hover:bg-orange-700">Order
+                    Now</a>
+                  <h5 class="text-lg font-bold" x-text="item.price"></h5>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <!-- Snacks -->
+        <div x-show="tab==='beverage'" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 col-span-full">
+          <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition">
+            <img src="{% static 'Img/burger.jpeg' %}" class="w-full h-40 object-cover" alt="">
+            <div class="p-4 space-y-4">
+              <h3 class="text-xl font-bold">Hamburger</h3>
+              <span class="text-gray-600">Ground beef, Cheese, Ketchup</span>
+              <div class="flex justify-between items-center mt-3">
+                <a href="cart.html" class="bg-green-600 text-white px-4 py-1 rounded-lg">Order Now</a>
+                <h5 class="text-lg font-bold">₦3,500</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dessert -->
+        <div x-show="tab==='dessert'" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 col-span-full">
+          <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition">
+            <img src="assets/images/manu/manu-1.jpg" class="w-full h-40 object-cover" alt="">
+            <div class="p-4">
+              <h3 class="text-xl font-bold">Perica Arepa</h3>
+              <span class="text-gray-600">Chilled tomato, cucumber</span>
+              <div class="flex justify-between items-center mt-3">
+                <a href="cart.html" class="bg-green-600 text-white px-4 py-1 rounded-lg">Order Now</a>
+                <h5 class="text-lg font-bold">₦25</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Dishes -->
+        <div x-show="tab==='dishes'" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 col-span-full">
+          <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition">
+            <img src="{% static 'Img/Afang.jpg' %}" class="w-full h-40 object-cover" alt="">
+            <div class="p-4">
+              <h3 class="text-xl font-bold">Afang Soup</h3>
+              <span class="text-gray-600">Chilled tomato, bitter-leaf</span>
+              <div class="flex justify-between items-center mt-3">
+                <a href="cart.html" class="bg-green-600 text-white px-4 py-1 rounded-lg">Order Now</a>
+                <h5 class="text-lg font-bold">₦2,500</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sea Food -->
+        <div x-show="tab==='seafood'" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 col-span-full">
+          <div class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition">
+            <img src="assets/images/manu/manu-4.jpg" class="w-full h-40 object-cover" alt="">
+            <div class="p-4">
+              <h3 class="text-xl font-bold">Pangasius Basa</h3>
+              <span class="text-gray-600">Mutton, Olive Oil, Salt</span>
+              <div class="flex justify-between items-center mt-3">
+                <a href="cart.html" class="bg-green-600 text-white px-4 py-1 rounded-lg">Order Now</a>
+                <h5 class="text-lg font-bold">₦55</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- About us -->
+  <section>
+    <div class="relative z-10 overflow-hidden py-28 bg-gray-100">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+
+          <!-- Left Content -->
+          <div>
+            <p data-aos="fade-up"><span class="text-green-600 font-medium uppercase tracking-wide">About Us</span></p>
+            <h2 class="text-3xl md:text-4xl font-bold mt-3" data-aos="fade-up">Restaurant quality Food Delivered To You
+            </h2>
+            <p class="text-gray-600 mt-4" data-aos="fade-up">
+              In today's fast-paced world, restaurants and food delivery services play a vital role in meeting the
+              demands of modern lifestyles. From cozy local diners to global fast-food chains, restaurants offer a
+              variety of cuisines to suit every taste.
+            </p>
+            <ul class="space-y-3 mt-6">
+              <li class="flex items-center gap-3 text-gray-700" data-aos="fade-up">
+                <i class="ti ti-circle-check-filled text-green-600"></i>
+                Delicious Food Delivered to Your Doorstep
+              </li>
+              <li class="flex items-center gap-3 text-gray-700" data-aos="fade-up">
+                <i class="ti ti-circle-check-filled text-green-600"></i>
+                Savor Every Bite Dine In or Order Out
+              </li>
+              <li class="flex items-center gap-3 text-gray-700" data-aos="fade-up">
+                <i class="ti ti-circle-check-filled text-green-600"></i>
+                Dine In Comfort with Exceptional Service
+              </li>
+              <li class="flex items-center gap-3 text-gray-700" data-aos="fade-up">
+                <i class="ti ti-circle-check-filled text-green-600"></i>
+                Order Online Hot Meals Quick Delivery
+              </li>
+            </ul>
+            <a href="about-us.html" data-aos="fade-up"
+              class="inline-block mt-6 lg:mt-8 px-6 py-3 bg-green-600 text-white font-medium rounded-lg shadow hover:bg-green-700 transition">
+              About Us
+            </a>
+          </div>
+
+          <!-- Right Image -->
+          <div class="lg:pl-10">
+            <img class="rounded-lg" src="assets/images/about/a-image-1.jpg" alt="image">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Footer -->
+  <section class="bg-[#f4f1ea]">
+    <div class="relative z-10 py-24">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+          <!-- Logo & About -->
+          <div>
+            <div class="mb-4">
+              <p class="text-xl font-bold">ChopDeck</p>
+            </div>
+            <p class="mb-4 text-gray-700">
+              Meanwhile, food delivery platforms revolutionized the way people enjoy meals by bringing freshly prepared
+            </p>
+            <ul class="flex items-center gap-3">
+              <li>
+                <a href="https://www.facebook.com/" target="_blank"
+                  class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                  <i class="ti ti-brand-facebook text-white"></i>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/" target="_blank"
+                  class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                  <i class="ti ti-brand-x text-white"></i>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/" target="_blank"
+                  class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                  <i class="ti ti-brand-instagram text-white"></i>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/" target="_blank"
+                  class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                  <i class="ti ti-brand-linkedin text-white"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Quick Links -->
+          <div>
+            <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+            <ul class="space-y-2 text-gray-700">
+              <li><a href="index.html" class="hover:text-green-500 transition">Home</a></li>
+              <li><a href="about-us.html" class="hover:text-green-500 transition">About Us</a></li>
+              <li><a href="menu.html" class="hover:text-green-500 transition">Menu</a></li>
+              <li><a href="blog.html" class="hover:text-green-500 transition">Blog</a></li>
+              <li><a href="contact-us.html" class="hover:text-green-500 transition">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <!-- Our Menu -->
+          <div>
+            <h3 class="text-xl font-bold mb-4">Our Menu</h3>
+            <ul class="space-y-2">
+              <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Italian Chines</a>
+              </li>
+              <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Chicken Meal</a>
+              </li>
+              <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Chicken Ball</a>
+              </li>
+              <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Burger Kings</a>
+              </li>
+              <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Maxican Food</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact Us -->
+          <div>
+            <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+            <div class="mb-3">
+              <h4 class="text-lg font-bold">Address:</h4>
+              <a href="https://maps.app.goo.gl/byqdjUd9y3yP5oh96" target="_blank"
+                class="text-gray-700 hover:text-green-500 transition">
+                44, Ikola Estate, Lagos
+              </a>
+            </div>
+            <div class="mb-3">
+              <h4 class="text-lg font-bold">Phone:</h4>
+              <a href="tel:123456789" class="text-gray-700 hover:text-green-500 transition">+234 787 456 789</a>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold">Email:</h4>
+              <a href="mailto:info@feedo.com"
+                class="text-gray-700 hover:text-green-500 transition">chodeck@yahoo.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="py-4">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <p class="text-gray-800 text-base text-lg">
+          © ChopDeck @2025. All Rights Reserved.
+          <a href="https://htmltemplate.xyz" class="gap-2 hover:text-green-500 transition">
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <button id="chatBtn"
+    class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[1000] bg-green-600 p-2 sm:p-3 rounded-full shadow-md ">
+    <span class="material-symbols-outlined text-4xl sm:text-5xl text-white">chat_bubble</span>
+  </button>
+
+  <!-- Side Modal -->
+  <div id="chatModal"
+    class="fixed top-0 right-0 h-full w-80 bg-white transform translate-x-full transition-transform z-[1050]">
+    <!-- Modal Header -->
+    <div class="p-4 border-b flex justify-between">
+      <h2 class="text-lg font-semibold">ChopDeck AI</h2>
+      <button id="closeBtn" class="float-right text-gray-500 hover:text-gray-800 text-4xl">&times;</button>
+    </div>
+    <!-- Modal Body -->
+    <div class="p-4">
+      <p>Welcome to chat!</p>
+      <p>Type your message below...</p>
+      <input type="text" class="rounded-lg p-3" placeholder="type a message">
+    </div>
+  </div>
 
 
 
   <script src="{% static 'js/scripts.js' %}"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
   <script>
     AOS.init({
       duration: 1000,   // animation duration (ms)
