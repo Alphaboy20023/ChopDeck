@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+  <title>App</title>
+  <style>
+    .stats-bg {
+      background-image: url("{% static 'Img/HeaderPicture.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      width: 100%;
+
+    }
+  </style>
+</head>
+
+<body>
+  <header class="bg-red-700">
+    <nav class="max-w-7xl mx-auto flex items-center justify-between p-5 text-white">
+      <!-- Logo -->
+      <div class="text-3xl font-bold">ChopDeck</div>
+
+      <!-- Menu Button (mobile) -->
+      <button id="menu-btn" class="lg:hidden text-2xl focus:outline-none">
+        ☰
+      </button>
+
+      <!-- Links -->
+      <ul id="menu" class="hidden lg:flex space-x-6 text-xl">
+        <li><a href="index.html" class="hover:text-blue-600">Home</a></li>
+        <li><a href="#" class="hover:text-blue-600">Menu</a></li>
+        <li><a href="#" class="hover:text-blue-600">Our Services</a></li>
+        <li><a href="#" class="hover:text-blue-600">Blog</a></li>
+        <li><a href="#" class="hover:text-blue-600">Contact Us</a></li>
+      </ul>
+    </nav>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu" class="lg:hidden hidden px-4 pb-4 text-white text-xl">
+      <ul class="flex flex-col space-y-3">
+        <li><a href="{% url 'index' %}" class="block hover:text-blue-600">Home</a></li>
+        <li><a href="#" class="block hover:text-blue-600">Menu</a></li>
+        <li><a href="#" class="block hover:text-blue-600">Our Services</a></li>
+        <li><a href="#" class="block hover:text-blue-600">Blog</a></li>
+        <li><a href="#" class="block hover:text-blue-600">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <section class=" text-white  px-5 py-2 overflow-hidden gap-4 flex items-center">
+      <div class="w-full lg:px-12 mx-auto lg:flex lg:items-center lg:justify-between relative z-10">
+        <!-- Left Content -->
+        <div class="lg:w-full space-y-6">
+          <img src="{% static 'Img/jollofRice.jpg' %}" alt="spinning-rice" class="text-xl p-3">
+          <span class="text-xl font-medium tracking-wide uppercase text-green-400 sub-title">
+            Taste the Unique Flavor
+          </span>
+          <h2 class="text-4xl lg:text-5xl font-bold leading-tight" data-aos="zoom-in">
+            Discover <span class="block">true deliciousness</span>
+          </h2>
+          <p class="text-lg text-green-100 max-w-md">
+            Choose your favorite cupcakes for same-day delivery or quick pick-up!
+          </p>
+
+          <a href="shop.html"
+            class="inline-block bg-white text-green-900 font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-100 transition">
+            Order Now
+          </a>
+
+          <!-- Features -->
+          <ul class="mt-6 space-y-3 border border-white rounded-xl lg:w-[16vw] w-64 p-2 font-semibold">
+            <li class="flex items-center gap-2">
+              <i class="ti ti-check text-green-300"></i>
+              Always Fresh
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="ti ti-check text-green-300"></i>
+              Fast & Reliable Delivery
+            </li>
+          </ul>
+        </div>
+
+        <div class="stats-bg flex items-center justify-center">
+          <div class="mt-12 lg:mt-0 lg:w-2/3 grid grid-cols-2 gap-8 text-center">
+            <div class="bg-green-800 bg-opacity-60 p-6 rounded-xl shadow-md animate-bounce [animation-duration:7s]">
+              <p class="text-5xl font-extrabold">110+</p>
+              <p class="mt-2 font-medium">Happy Customers</p>
+            </div>
+            <div class="bg-green-800 bg-opacity-80 p-6 rounded-xl shadow-md">
+              <p class="text-5xl font-extrabold">4.9</p>
+              <p class="mt-2 font-medium">Market Rating</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </header>
+
+  <section class="flex flex-col lg:flex-row gap-10 items-center px-6 py-12 max-w-full mx-auto">
+    <!-- Left image -->
+    <img src="{% static 'Img/ourServices.png' %}" alt="" class="w-full lg:w-1/2" data-aos="fade-right">
+
+    <!-- Right content -->
+    <aside class="text-center lg:text-left space-y-6 w-full lg:w-1/2">
+      <p class="text-green-600 text-lg font-semibold">Our Services</p>
+      <h1 class="text-2xl sm:text-3xl font-bold">Your Favorite Food Services</h1>
+
+      <!-- Cards container -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5" data-aos="fade-up">
+        <!-- First card -->
+        <div class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3">
+          <img src="" alt="rest" class="mx-auto lg:mx-0">
+          <h1 class="text-lg sm:text-xl font-bold">Local Restaurants</h1>
+          <p class="text-sm sm:text-base">
+            Enjoy restaurant-quality meals comfort of home with our fast and reliable food delivery service craving a
+            delicious swallow.
+          </p>
+        </div>
+
+        <!-- Second card -->
+        <div class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3">
+          <img src="" alt="rest" class="mx-auto lg:mx-0">
+          <h1 class="text-lg sm:text-xl font-bold ">Food Delivery</h1>
+          <p class="text-sm sm:text-base">
+            Enjoy restaurant-quality meals comfort of home with our fast and reliable food delivery service craving
+            delicious foods at your doorstep.
+          </p>
+        </div>
+
+        <!-- Third card (centered below both) -->
+        <div
+          class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3 md:col-span-2 md:w-2/3 lg:w-1/2 mx-auto" >
+          <img src="" alt="rest" class="mx-auto lg:mx-0">
+          <h1 class="text-lg sm:text-xl font-bold" >Health Food</h1>
+          <p class="text-sm sm:text-base">
+            Enjoy restaurant-quality meals comfort of home with our fast and reliable food delivery service craving a
+            delicious swallow.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="flex flex-col lg:flex-row gap-10 bg-gray-100 items-center px-6 py-12 max-w-full mx-auto">
+    <!-- Left content -->
+    <aside class="text-center lg:text-left space-y-6 w-full lg:w-1/2" >
+      <p class="text-green-600 text-2xl text-center font-semibold" data-aos="fade-up">How it Works</p>
+      <h1 class="text-2xl sm:text-3xl font-bold">Renowned For Crafting The Finest Burger In Your Town.</h1>
+      <p>At ChopDeck we’re passionate about serving the best meals made with fresh and authentic flavors. Whether you're
+        dining in or ordering from the comfort of your home, our fast and reliable food delivery service</p>
+
+    </aside>
+    <!-- Right image -->
+    <img src="{% static 'Img/ourServices.png' %}" alt="" class="w-full lg:w-1/2">
+  </section>
+
+
+
+  <script src="{% static 'js/scripts.js' %}"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,   // animation duration (ms)
+      once: true,       // whether animation should happen only once
+    });
+  </script>
+</body>
+
+</html>
+<!-- fade-up
+
+fade-down
+
+fade-left
+
+fade-right
+
+zoom-in
+
+zoom-out
+
+flip-left
+
+flip-right -->
