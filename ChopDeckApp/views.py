@@ -24,3 +24,6 @@ def blog (request):
 
 def contact_us (request):
     return render(request, 'contact.html')
+
+def register (request):
+    return render(request, 'signUp.html')

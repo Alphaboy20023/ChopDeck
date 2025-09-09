@@ -34,6 +34,7 @@
         body {
             overflow-x: hidden;
         }
+
     </style>
 
 </head>
@@ -49,29 +50,31 @@
         </button>
 
         <!-- Links -->
-        <ul id="menu" class="hidden lg:flex space-x-6 text-xl">
+        <ul id="menu" class="hidden lg:flex space-x-6 text-xl font-semibold">
             <li><a href="{% url 'index' %}" class="hover:text-blue-600">Home</a></li>
             <li><a href="{% url 'menu' %}" class="hover:text-blue-600">Menu</a></li>
             <li><a href="{% url 'about' %}" class="hover:text-blue-600">About</a></li>
             <li><a href="{% url 'blog' %}" class="hover:text-blue-600">Blog</a></li>
             <li><a href="{% url 'contact' %}" class="hover:text-blue-600">Contact Us</a></li>
+            <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li>
         </ul>
     </nav>
 
     <!-- Mobile Dropdown -->
     <div id="mobile-menu" class="lg:hidden hidden px-4 pb-4 text-white text-xl">
-        <ul class="flex flex-col space-y-3">
+        <ul class="flex flex-col space-y-3 font-semibold">
             <li><a href="{% url 'index' %}" class="block hover:text-blue-600">Home</a></li>
             <li><a href="{% url 'menu' %}" class="block hover:text-blue-600">Menu</a></li>
             <li><a href="{% url 'about' %}" class="block hover:text-blue-600">About</a></li>
             <li><a href="{% url 'blog' %}" class="block hover:text-blue-600">Blog</a></li>
             <li><a href="{% url 'contact' %}" class="block hover:text-blue-600">Contact Us</a></li>
+            <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li>
         </ul>
     </div>
 
     <section class="about text-white relative font-bold flex flex-col gap-3">
         <div class="absolute inset-0 bg-black/40"></div>
-        <div class="relative z-10">
+        <div class="relative z-10 space-y-3">
             <h1 class="text-5xl" data-aos="fade-up">About Us</h1>
             <div class="flex flex-row gap-1 font-semibold justify-center" data-aos="fade-up">
                 <a href="{% url 'index' %}" class="hover:text-blue-600">Home</a>
@@ -128,7 +131,6 @@
 
     <section class="w-full pt-12 bg-gray-200">
         <div class="grid grid-cols-1 lg:grid-cols-2">
-
             <!-- Left Card -->
             <div data-aos="fade-right" data-aos-duration="800">
                 <div class="delivery-card bg-cover bg-center h-full flex items-center p-8 lg:p-16 reward-bg">
@@ -227,9 +229,9 @@
                         <ul class="space-y-2 text-gray-700">
                             <li><a href="{% url 'index' %}" class="hover:text-green-500 transition">Home</a></li>
                             <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">About Us</a></li>
-                            <li><a href="menu.html" class="hover:text-green-500 transition">Menu</a></li>
-                            <li><a href="blog.html" class="hover:text-green-500 transition">Blog</a></li>
-                            <li><a href="contact-us.html" class="hover:text-green-500 transition">Contact Us</a></li>
+                            <li><a href="{% url 'menu' %}" class="hover:text-green-500 transition">Menu</a></li>
+                            <li><a href="{% url 'blog' %}" class="hover:text-green-500 transition">Blog</a></li>
+                            <li><a href="{% url 'contact' %}" class="hover:text-green-500 transition">Contact Us</a></li>
                         </ul>
                     </div>
 

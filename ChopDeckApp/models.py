@@ -52,3 +52,12 @@ class TimeStampField(models.Model):
     
     class Meta:
         abstract = True
+        
+class Food(TimeStampField):
+    title = models.CharField(max_length=400)
+    
+class orderFood(TimeStampField):
+    pass
+
+class blog(TimeStampField):
+    pass

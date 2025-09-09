@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+</head>
+
+<body class="relative overflow-x-hidden">
+    <nav class="w-full mx-auto flex items-center justify-between p-5 text-white sticky top-0 z-50 bg-red-800 shadow-md">
+        <!-- Logo -->
+        <div class="text-3xl font-bold">ChopDeck</div>
+
+        <!-- Menu Button (mobile) -->
+        <button id="menu-btn" class="lg:hidden text-2xl focus:outline-none">
+            ☰
+        </button>
+
+        <!-- Links -->
+        <ul id="menu" class="hidden lg:flex space-x-6 text-xl font-semibold">
+            <li><a href="{% url 'index' %}" class="hover:text-blue-600">Home</a></li>
+            <li><a href="{% url 'menu' %}" class="hover:text-blue-600">Menu</a></li>
+            <li><a href="{% url 'about' %}" class="hover:text-blue-600">About</a></li>
+            <li><a href="{% url 'blog' %}" class="hover:text-blue-600">Blog</a></li>
+            <li><a href="{% url 'contact' %}" class="hover:text-blue-600">Contact Us</a></li>
+            <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li>
+        </ul>
+    </nav>
+</body>
+
+</html>
