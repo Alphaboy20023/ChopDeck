@@ -1,28 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Lobster&family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Lobster&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Lobster&family=Outfit:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Raleway:ital,wght@0,100..900;1,100..900&family=Yesteryear&display=swap");
-@font-face {
-      font-family: 'Kiddish';
-      src: url('/static/fonts/Kiddish.woff2') format('woff2'),
-           url('/static/fonts/Kiddish.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: swap;
-    }
 
 .sub-title {
-    font-family: 'Kiddish', cursive;
+    /* font-family: 'Kiddish', cursive; */
     font-style: italic;
     color: var(--info-color);
 }
 
-@keyframes move-horizontal {
-  0%   { transform: translateX(0); }
-  50%  { transform: translateX(18px); } /* move right */
+@keyframes horizontalMove {
+  0%   { transform: translateX(); }
+  50%  { transform: translateX(60px); } /* move right */
   100% { transform: translateX(0); }    /* back to start */
 }
 
-.animate-move-horizontal {
-  animation: move-horizontal 10s ease-in-out infinite;
+.animate-horizontal {
+  animation: horizontalMove 4s ease-in-out infinite;
 }
 

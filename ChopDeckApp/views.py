@@ -9,6 +9,18 @@ from django.contrib.auth import authenticate, login
 # from .models import Product, Cart
 
 # Create your views here.
-def index  (request):
+def index (request):
     # products = Product.objects.all()
     return render(request, 'index.html')
+
+def menu (request):
+    return render(request, 'menu.html')
+
+def about (request):
+    return render(request, 'about.html')
+
+def blog (request):
+    return render(request, 'blog.html')
+
+def contact_us (request):
+    return render(request, 'contact.html')
