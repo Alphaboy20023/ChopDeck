@@ -3,6 +3,7 @@ const mobileMenu = document.getElementById("mobile-menu");
 
 btn.addEventListener("click", () => {
   mobileMenu.classList.toggle("hidden");
+  document.body.classList.toggle("menu-open");
 });
 
 const chatBtn = document.getElementById('chatBtn');
@@ -16,4 +17,5 @@ chatBtn.addEventListener('click', () => {
 closeBtn.addEventListener('click', () => {
   chatModal.classList.add('translate-x-full');
 });
+
 

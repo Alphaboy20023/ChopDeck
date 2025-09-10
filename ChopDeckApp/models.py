@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.core.files.storage import FileSystemStorage
+import os
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 
 # Create your models here.
@@ -52,12 +55,88 @@ class TimeStampField(models.Model):
     
     class Meta:
         abstract = True
-        
-class Food(TimeStampField):
-    title = models.CharField(max_length=400)
-    
-class orderFood(TimeStampField):
-    pass
 
-class blog(TimeStampField):
-    pass
+class Category(models.Model):
+    title = models.CharField(max_length=50, unique=True)
+    description = models.TextField(blank=True, null=True)
+    
+    def __str__(self):
+        return self.title
+
+class FoodItem(TimeStampField):
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='foods')
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+    image = models.ImageField(upload_to='food_images/', blank=True, null=True)
+    is_available = models.BooleanField(default=True)
+    reviews = models.PositiveIntegerField(default=0)
+    stars = models.CharField(max_length=10, null=True)
+    
+    @property
+    def formatted_price(self):
+        return f"₦{intcomma(int(self.price))}"
+    
+    def __str__(self):
+        return self.title
+
+class Order(TimeStampField):
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('preparing', 'Preparing'),
+        ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
+    ]
+    
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='orders')
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    
+    def __str__(self):
+        return f"Order #{self.id} by {self.user.username}"
+
+class OrderFood(TimeStampField):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_items', null=True)
+    food = models.ForeignKey('FoodItem', on_delete=models.CASCADE, null=True)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=8, decimal_places=2, null=True)  # store price at order time
+    
+    def __str__(self):
+        return f"{self.quantity} x {self.food.name} in Order #{self.order.id}"
+
+class Blog(TimeStampField):
+    title = models.CharField(max_length=200, blank=True)
+    author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+    content = models.TextField(max_length=500, blank=True)
+    image = models.ImageField(upload_to='blog_images/', blank=True, null=True)
+    is_published = models.BooleanField(default=False)
+    
+    is_admin_post = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.title
+
+class Comment(TimeStampField):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
+    content = models.TextField()
+    
+    def __str__(self):
+        return f"Comment by {self.user.username if self.user else 'Anonymous'} on {self.blog.title}"
+
+class Payment(TimeStampField):
+    PAYMENT_METHODS = [
+        ('card', 'Card'),
+        ('cash', 'Cash'),
+    ]
+    
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='payment')
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    method = models.CharField(max_length=20, choices=PAYMENT_METHODS)
+    paid_at = models.DateTimeField(auto_now_add=True)
+    receipt = models.FileField(upload_to='receipts/', blank=True, null=True)
+    
+    def __str__(self):
+        return f"Payment for Order #{self.order.id}"
+

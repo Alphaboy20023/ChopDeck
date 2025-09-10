@@ -24,33 +24,62 @@
             justify-content: center;
             padding: auto;
         }
+
+        body.menu-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+        }
     </style>
 </head>
 
-<body>
-    <nav class="w-full mx-auto flex items-center justify-between p-5 text-white sticky top-0 z-50 bg-red-800 shadow-md">
+<body class="relative overflow-x-hidden">
+    <nav
+        class="bg-red-700 w-full mx-auto flex items-center justify-between p-4 text-white sticky top-0 z-50 backdrop-blur-xl">
         <!-- Logo -->
-        <div class="text-3xl font-bold">ChopDeck</div>
+        <div class="text-2xl font-bold px-3">ChopDeck</div>
 
-        <!-- Menu Button (mobile) -->
-        <button id="menu-btn" class="lg:hidden text-2xl focus:outline-none">
-            ☰
-        </button>
-
-        <!-- Links -->
-        <ul id="menu" class="hidden lg:flex space-x-6 text-xl font-semibold">
-            <li><a href="{% url 'index' %}" class="hover:text-blue-600">Home</a></li>
-            <li><a href="{% url 'menu' %}" class="hover:text-blue-600">Menu</a></li>
-            <li><a href="{% url 'about' %}" class="hover:text-blue-600">About</a></li>
-            <li><a href="{% url 'blog' %}" class="hover:text-blue-600">Blog</a></li>
-            <li><a href="{% url 'contact' %}" class="hover:text-blue-600">Contact Us</a></li>
-            <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li>
+        <!-- Links (centered) -->
+        <ul id="menu" class="hidden lg:flex flex-1 justify-center space-x-3 text-xl font-semibold">
+            <li><a href="{% url 'index' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Home</a>
+            </li>
+            <li><a href="{% url 'menu' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Menu</a>
+            </li>
+            <li><a href="{% url 'about' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">About</a>
+            </li>
+            <li><a href="{% url 'blog' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Blog</a>
+            </li>
+            <li><a href="{% url 'contact' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Contact
+                    Us</a></li>
+            <li><a href="{% url 'sign-up' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Sign
+                    Up</a></li>
         </ul>
+
+        <!-- Cart / Menu button (right side) -->
+        <div class="flex items-center space-x-4">
+            <!-- Cart icon -->
+            <a href="" class="text-2xl hover:text-blue-600">
+                🛒
+            </a>
+
+            <!-- Menu Button (mobile) -->
+            <button id="menu-btn" class="lg:hidden text-2xl focus:outline-none">
+                ☰
+            </button>
+        </div>
     </nav>
 
     <!-- Mobile Dropdown -->
-    <div id="mobile-menu" class="lg:hidden hidden px-4 pb-4 text-white text-xl">
-        <ul class="flex flex-col space-y-3 font-semibold">
+    <div id="mobile-menu"
+        class="lg:hidden hidden px-4 pb-4 text-white text-xl bg-red-700 fixed top-16 left-0 right-0 bottom-0 z-40 overflow-hidden h-full">
+        <ul class="flex flex-col space-y-3 font-semibold h-screen">
             <li><a href="{% url 'index' %}" class="block hover:text-blue-600">Home</a></li>
             <li><a href="{% url 'menu' %}" class="block hover:text-blue-600">Menu</a></li>
             <li><a href="{% url 'about' %}" class="block hover:text-blue-600">About</a></li>
@@ -76,182 +105,80 @@
         <div class="container mx-auto px-4">
             <!-- Section Title -->
             <div class="text-center mb-12">
-                <span class="text-green-500 font-semibold uppercase tracking-wide" data-aos="fade-up">Popular Menu</span>
+                <span class="text-green-500 font-semibold uppercase tracking-wide" data-aos="fade-up">Popular
+                    Menu</span>
                 <h2 class="text-3xl md:text-4xl font-bold mt-2" data-aos="fade-up">Choose Your Favorite Food</h2>
             </div>
 
             <!-- Nav Tabs -->
             <ul class="flex flex-wrap justify-center gap-4 mb-10" data-aos="fade-up">
-                <li><button data-filter="all"
-                        class="filter-btn active px-4 py-2 bg-gray-200 rounded-full hover:bg-orange-500 hover:text-white transition-colors">All</button>
+                <li>
+                    <button data-filter="all"
+                        class="filter-btn active px-4 py-2 bg-gray-200 rounded-full hover:bg-orange-500 hover:text-white transition-colors">
+                        All
+                    </button>
                 </li>
-                <li><button data-filter="beverage"
-                        class="filter-btn px-4 py-2 bg-gray-200 rounded-full hover:bg-orange-500 hover:text-white transition-colors">Beverage</button>
+                {% for cat in categories %}
+                <li>
+                    <button data-filter="{{ cat.id }}"
+                        class="filter-btn px-4 py-2 bg-gray-200 rounded-full hover:bg-orange-500 hover:text-white transition-colors">
+                        {{ cat.title }}
+                    </button>
                 </li>
-                <li><button data-filter="desserts"
-                        class="filter-btn px-4 py-2 bg-gray-200 rounded-full hover:bg-orange-500 hover:text-white transition-colors">Desserts</button>
-                </li>
-                <li><button data-filter="main"
-                        class="filter-btn px-4 py-2 bg-gray-200 rounded-full hover:bg-orange-500 hover:text-white transition-colors">Main
-                        Dishes</button></li>
-                <li><button data-filter="seafood"
-                        class="filter-btn px-4 py-2 bg-gray-200 rounded-full hover:bg-orange-500 hover:text-white transition-colors">Sea
-                        Food</button></li>
+                {% endfor %}
             </ul>
 
             <!-- Menu Grid -->
-            <div id="menuGrid" class="flex flex-wrap justify-center gap-6 min-h-[400px]">
-                <!-- card 1 -->
-                <div class="menu-card bg-white rounded-xl shadow-md overflow-hidden" data-category="beverage" data-aos="fade-up">
-                    <div
-                        class="w-full h-56 bg-gradient-to-br from-orange-200 to-orange-400 flex items-center justify-center">
-                        <span class="text-white font-bold">Perica Arepa</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold"><a href="#" class="hover:text-orange-500">Perica Arepa</a>
-                        </h3>
-                        <span class="text-gray-500 text-sm">Chilled tomato, cucumber</span>
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-orange-600 transition-colors">Order
-                                Now</button>
-                            <h5 class="text-lg font-bold text-green-600">₦2,500</h5>
+            <div id="menuGrid" class="flex flex-wrap justify-center gap-6">
+                {% for item in foodItems %}
+                {% if item.is_available %}
+                <div data-aos="fade-up" class="menu-card bg-white rounded-xl shadow-md overflow-hidden"
+                    data-category="{{ item.category.id }}">
+                    <div class="transform transition duration-300 hover:scale-105 cursor-pointer">
+                        <!-- Image -->
+                        <div
+                            class="w-full h-56 bg-gray-100 flex items-center justify-center overflow-hidden cursor-pointer ">
+                            {% if item.image %}
+                            <a href="{% url 'menu-details' item.pk %}">
+                                <img src="{{ item.image.url }}" alt="{{ item.title }}"
+                                    class="w-full h-full object-cover ">
+                            </a>
+                            {% else %}
+                            <img src="{% static 'Img/default-food.jpg' %}" alt="{{ item.title }}"
+                                class="w-full h-full object-cover">
+                            {% endif %}
                         </div>
-                    </div>
-                </div>
-                <!-- card 2 -->
-                <div data-aos="fade-up" class="menu-card bg-white rounded-xl shadow-md overflow-hidden" data-category="main">
-                    <div class="w-full h-56 bg-gradient-to-br from-red-200 to-red-400 flex items-center justify-center">
-                        <span class="text-white font-bold">Fried Chicken</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold"><a href="#" class="hover:text-orange-500">Fried Chicken</a>
-                        </h3>
-                        <span class="text-gray-500 text-sm">Chicken, Olive Oil, Salt</span>
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-orange-600 transition-colors">Order
-                                Now</button>
-                            <h5 class="text-lg font-bold text-green-600">₦4,000</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- card 3 -->
-                <div data-aos="fade-up" class="menu-card bg-white rounded-xl shadow-md overflow-hidden" data-category="desserts">
-                    <div
-                        class="w-full h-56 bg-gradient-to-br from-pink-200 to-pink-400 flex items-center justify-center">
-                        <span class="text-white font-bold">Chicken Skewers</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold"><a href="#" class="hover:text-orange-500">Chicken Skewers</a>
-                        </h3>
-                        <span class="text-gray-500 text-sm">Slices, sweet, peppers-dill</span>
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-orange-600 transition-colors">Order
-                                Now</button>
-                            <h5 class="text-lg font-bold text-green-600">₦3,200</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- card 4 -->
-                <div data-aos="fade-up" class="menu-card bg-white rounded-xl shadow-md overflow-hidden" data-category="seafood">
-                    <div
-                        class="w-full h-56 bg-gradient-to-br from-blue-200 to-blue-400 flex items-center justify-center">
-                        <span class="text-white font-bold">Pangasius Basa</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold"><a href="#" class="hover:text-orange-500">Pangasius Basa</a>
-                        </h3>
-                        <span class="text-gray-500 text-sm">Mutton, Olive Oil, Salt</span>
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-orange-600 transition-colors">Order
-                                Now</button>
-                            <h5 class="text-lg font-bold text-green-600">₦5,500</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- card 5 -->
-                <div data-aos="fade-up" class="menu-card bg-white rounded-xl shadow-md overflow-hidden" data-category="beverage">
-                    <div
-                        class="w-full h-56 bg-gradient-to-br from-green-200 to-green-400 flex items-center justify-center">
-                        <span class="text-white font-bold">Smoothie</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold"><a href="#" class="hover:text-orange-500">Smoothie</a></h3>
-                        <span class="text-gray-500 text-sm">Banana, Milk, Honey</span>
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-orange-600 transition-colors">Order
-                                Now</button>
-                            <h5 class="text-lg font-bold text-green-600">₦2,800</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- card 6 -->
-                <div data-aos="fade-up" class="menu-card bg-white rounded-xl shadow-md overflow-hidden" data-category="main">
-                    <div
-                        class="w-full h-56 bg-gradient-to-br from-yellow-200 to-yellow-400 flex items-center justify-center">
-                        <span class="text-white font-bold">Grilled Salmon</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold"><a href="#" class="hover:text-orange-500">Grilled Salmon</a>
-                        </h3>
-                        <span class="text-gray-500 text-sm">Fresh salmon, herbs</span>
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-orange-600 transition-colors">Order
-                                Now</button>
-                            <h5 class="text-lg font-bold text-green-600">₦6,200</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- card 7 -->
-                <div data-aos="fade-up" class="menu-card bg-white rounded-xl shadow-md overflow-hidden" data-category="desserts">
-                    <div
-                        class="w-full h-56 bg-gradient-to-br from-purple-200 to-purple-400 flex items-center justify-center">
-                        <span class="text-white font-bold">Ice Cream</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold"><a href="#" class="hover:text-orange-500">Ice Cream</a></h3>
-                        <span class="text-gray-500 text-sm">Vanilla, chocolate swirl</span>
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-orange-600 transition-colors">Order
-                                Now</button>
-                            <h5 class="text-lg font-bold text-green-600">₦1,800</h5>
-                        </div>
-                    </div>
-                </div>
-                <!-- card 8 -->
-                <div data-aos="fade-up" class="menu-card bg-white rounded-xl shadow-md overflow-hidden" data-category="seafood">
-                    <div
-                        class="w-full h-56 bg-gradient-to-br from-teal-200 to-teal-400 flex items-center justify-center">
-                        <span class="text-white font-bold">Lobster Roll</span>
-                    </div>
-                    <div class="p-4">
-                        <h3 class="text-xl font-semibold"><a href="#" class="hover:text-orange-500">Lobster Roll</a>
-                        </h3>
-                        <span class="text-gray-500 text-sm">Fresh lobster, mayo</span>
-                        <div class="flex items-center justify-between mt-4">
-                            <button
-                                class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-orange-600 transition-colors">Order
-                                Now</button>
-                            <h5 class="text-lg font-bold text-orange-500">₦8,500</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        <!-- <p>add to cart</p> -->
 
+                        <!-- Content -->
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold">
+                                <a href="{% url 'menu-details' item.pk %}" class="hover:text-orange-500">{{ item.title }}</a>
+                            </h3>
+                            <span class="text-gray-500 text-sm">{{ item.description|truncatechars:60 }}</span>
+                            <div class="flex items-center justify-between mt-4">
+                                <a href="{% url 'menu-details' item.pk %}"
+                                    class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-orange-600 transition-colors">
+                                    Order Now
+                                </a>
+                                <h5 class="text-lg font-bold text-green-600">₦{{ item.formatted_price }}</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% empty %}
+                <p class="col-span-full text-center text-gray-500">No food items available.</p>
+                {% endfor %}
+            </div>
 
             <!-- Pagination -->
             <div class="flex justify-center mt-10" data-aos="fade-up">
-                <ul id="pagination" class="flex space-x-2">
-                </ul>
+                <ul id="pagination" class="flex space-x-2"></ul>
             </div>
         </div>
     </section>
+
 
     <section class="bg-[#f4f1ea]">
         <div class="relative z-10 py-24">
@@ -413,7 +340,7 @@
     </div>
 
     <script src="{% static 'js/menu.js' %}"></script>
-    <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script>

@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-&odgdgdge65763gdvdbvnbdsnmskjs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['chopdeck-9afj.onrender.com']
+ALLOWED_HOSTS = ['chopdeck-9afj.onrender.com', '127.0.0.1']
 
 
 # Application definition
@@ -79,29 +79,29 @@ WSGI_APPLICATION = 'ChopDeck.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASE_URL= os.getenv("DATABASE_URL")
-print(os.getenv("DATABASE_URL"))
+# DATABASE_URL= os.getenv("DATABASE_URL")
+# # print(os.getenv("DATABASE_URL"))
 
-if DATABASE_URL:
-    DATABASES= {
-        'default':dj_database_url.parse(DATABASE_URL, conn_max_age=600,
-        conn_health_checks=True
-        )}
-else:
-    print('⚠️ DATABASE_URL not found. Falling back to SQLite...')
-    DATABASES= {
-        'default':{
-            'ENGINE':'django.db.backends.sqlite3',
-            'NAME':BASE_DIR/'db.sqlite3'
-        }
-    }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+# if DATABASE_URL:
+#     DATABASES= {
+#         'default':dj_database_url.parse(DATABASE_URL, conn_max_age=600,
+#         conn_health_checks=True
+#         )}
+# else:
+#     print('⚠️ DATABASE_URL not found. Falling back to SQLite...')
+#     DATABASES= {
+#         'default':{
+#             'ENGINE':'django.db.backends.sqlite3',
+#             'NAME':BASE_DIR/'db.sqlite3'
+#         }
 #     }
-# }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 
 # Password validation
