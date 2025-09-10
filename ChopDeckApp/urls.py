@@ -14,3 +14,5 @@ urlpatterns = [
     path('sign-up/', views.register, name = 'sign-up'),
     
 ]
+
+# python manage.py collectstatic

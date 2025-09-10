@@ -23,42 +23,68 @@
             justify-content: center;
             padding: auto;
         }
+
+        body.menu-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+        }
     </style>
 </head>
 
 <body>
-    <nav class="w-full mx-auto flex items-center justify-between p-5 h-20 text-white sticky top-0 z-50 bg-red-800 shadow-md">
+    <nav
+        class="bg-red-700 w-full mx-auto flex items-center justify-between p-4 text-white sticky top-0 z-50 backdrop-blur-xl">
         <!-- Logo -->
-        <div>
-            <h1 class="text-3xl font-bold">ChopDeck</h1>
-            <!-- <p>Hello, name Welcome!</p> -->
-        </div>
+        <div class="text-2xl font-bold px-3">ChopDeck</div>
 
-        <!-- Menu Button (mobile) -->
-        <button id="menu-btn" class="lg:hidden text-2xl focus:outline-none">
-            ☰
-        </button>
-
-        <!-- Links -->
-        <ul id="menu" class="hidden lg:flex space-x-6 text-xl">
-            <li><a href="{% url 'index' %}" class="hover:text-blue-600">Home</a></li>
-            <li><a href="{% url 'menu' %}" class="hover:text-blue-600">Menu</a></li>
-            <li><a href="{% url 'about' %}" class="hover:text-blue-600">About</a></li>
-            <li><a href="{% url 'blog' %}" class="hover:text-blue-600">Blog</a></li>
-            <li><a href="{% url 'contact' %}" class="hover:text-blue-600">Contact Us</a></li>
-            <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li>
+        <!-- Links (centered) -->
+        <ul id="menu" class="hidden lg:flex flex-1 justify-center space-x-3 text-xl font-semibold">
+            <li><a href="{% url 'index' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Home</a>
+            </li>
+            <li><a href="{% url 'menu' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Menu</a>
+            </li>
+            <li><a href="{% url 'about' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">About</a>
+            </li>
+            <li><a href="{% url 'blog' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Blog</a>
+            </li>
+            <li><a href="{% url 'contact' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Contact
+                    Us</a></li>
+            <li><a href="{% url 'sign-up' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Sign
+                    Up</a></li>
         </ul>
+
+        <!-- Cart / Menu button (right side) -->
+        <div class="flex items-center space-x-4">
+            <!-- Cart icon -->
+            <a href="" class="text-2xl hover:text-blue-600">
+                🛒
+            </a>
+
+            <!-- Menu Button (mobile) -->
+            <button id="menu-btn" class="lg:hidden text-2xl focus:outline-none">
+                ☰
+            </button>
+        </div>
     </nav>
 
     <!-- Mobile Dropdown -->
-    <div id="mobile-menu" class="lg:hidden hidden px-4 pb-4 text-white text-xl">
-        <ul class="flex flex-col space-y-3">
+    <div id="mobile-menu"
+        class="lg:hidden hidden px-4 pb-4 text-white text-xl bg-red-700 fixed top-16 left-0 right-0 bottom-0 z-40 overflow-hidden h-full">
+        <ul class="flex flex-col space-y-3 font-semibold h-screen">
             <li><a href="{% url 'index' %}" class="block hover:text-blue-600">Home</a></li>
             <li><a href="{% url 'menu' %}" class="block hover:text-blue-600">Menu</a></li>
             <li><a href="{% url 'about' %}" class="block hover:text-blue-600">About</a></li>
             <li><a href="{% url 'blog' %}" class="block hover:text-blue-600">Blog</a></li>
             <li><a href="{% url 'contact' %}" class="block hover:text-blue-600">Contact Us</a></li>
-            <li><a href="{% url 'sign-up' %}" class="rounded-md bg-white text-black">Sign Up</a></li>
+            <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li>
         </ul>
     </div>
 
@@ -201,8 +227,9 @@
                             <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">About Us</a></li>
                             <li><a href="{% url 'menu' %}" class="hover:text-green-500 transition">Menu</a></li>
                             <li><a href="{% url 'blog' %}" class="hover:text-green-500 transition">Blog</a></li>
-                            <li><a href="{% url 'contact' %}" class="hover:text-green-500 transition">Contact Us</a></li>
-                            <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li>
+                            <li><a href="{% url 'contact' %}" class="hover:text-green-500 transition">Contact Us</a>
+                            </li>
+                            <!-- <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li> -->
                         </ul>
                     </div>
 
@@ -309,7 +336,7 @@
         </div>
     </div>
 
-    <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <script>

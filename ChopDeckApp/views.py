@@ -27,7 +27,7 @@ def about (request):
     return render(request, 'about.html')
 
 def blog (request):
-    blogs = Blog.objects.all(is_published=True)
+    blogs = Blog.objects.all()
     
     # filter by admin
     admin_blogs = blogs.filter(is_admin_post=True)
