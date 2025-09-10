@@ -19,3 +19,5 @@ admin.site.register(FoodItem, FoodAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Blog)
 admin.site.register(OrderFood)
+
+

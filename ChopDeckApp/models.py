@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
-from django.core.files.storage import FileSystemStorage
-import os
 from django.contrib.humanize.templatetags.humanize import intcomma
+from cloudinary_storage.storage import VideoMediaCloudinaryStorage, MediaCloudinaryStorage
 
 
 # Create your models here.
@@ -68,7 +67,7 @@ class FoodItem(TimeStampField):
     description = models.TextField(blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='foods')
     price = models.DecimalField(max_digits=8, decimal_places=2)
-    image = models.ImageField(upload_to='food_images/', blank=True, null=True)
+    image = models.ImageField(upload_to='food_images/', blank=True, null=True, storage=MediaCloudinaryStorage())
     is_available = models.BooleanField(default=True)
     reviews = models.PositiveIntegerField(default=0)
     stars = models.CharField(max_length=10, null=True)
@@ -109,7 +108,7 @@ class Blog(TimeStampField):
     title = models.CharField(max_length=200, blank=True)
     author = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
     content = models.TextField(max_length=500, blank=True)
-    image = models.ImageField(upload_to='blog_images/', blank=True, null=True)
+    image = models.ImageField(upload_to='blog_images/', blank=True, null=True, storage=MediaCloudinaryStorage())
     is_published = models.BooleanField(default=False)
     
     is_admin_post = models.BooleanField(default=False)
