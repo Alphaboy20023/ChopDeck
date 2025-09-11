@@ -4,15 +4,15 @@ from . import views
 
 
 urlpatterns = [
-    path('chopdeck/', views.index, name = 'index'),
-    path('chopdeck/menu/', views.menu, name = 'menu'),
-    path('chopdeck/about/', views.about, name = 'about'),
-    path('chopdeck/menu-details/<int:pk>/', views.menu_detail, name = 'menu-details'),
-    path('chopdeck/blog/', views.blog, name = 'blog'),
-    path('chopdeck/blogs/<int:pk>/', views.blog_detail, name='blog-detail'),
-    path('chopdeck/contact/', views.contact_us, name = 'contact'),
-    path('chopdeck/sign-up/', views.register, name = 'sign-up'),
-    path('chopdeck/login/', views.login, name = 'login'),
+    path('', views.index, name = 'index'),
+    path('menu/', views.menu, name = 'menu'),
+    path('about/', views.about, name = 'about'),
+    path('menu-details/<int:pk>/', views.menu_detail, name = 'menu-details'),
+    path('blog/', views.blog, name = 'blog'),
+    path('blogs/<int:pk>/', views.blog_detail, name='blog-detail'),
+    path('contact/', views.contact_us, name = 'contact'),
+    path('sign-up/', views.register, name = 'sign-up'),
+    path('login/', views.login, name = 'login'),
     
 ]
 
