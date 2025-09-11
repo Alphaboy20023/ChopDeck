@@ -5,8 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <title>blog detail</title>
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -112,39 +111,11 @@
         </div>
     </div>
 
-    <section class="font-bold flex flex-row lg:flex-nowrap flex-wrap items-center">
-        <img src="{% static 'Img/aboutHeader.jpg' %}" alt="" class="w-full" data-aos="fade-right">
-        <div class="max-w-7xl mx-auto p-6 rounded-2xl" data-aos="fade-left">
-            <form class="space-y-4 lg:pr-12">
-                <h2 class="text-2xl font-bold text-gray-800">Create An Account</h2>
+    <!-- detail area -->
+     <section>
+        
+     </section>
 
-                <input type="text" placeholder="Name"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
-
-                <input type="email" placeholder="Email"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
-
-                <input type="password" placeholder="Password"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
-
-                <input type="password" placeholder="Repeat Password"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
-
-                <button type="submit"
-                    class="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition ">
-                    Register Now
-                </button>
-
-                <p class="text-center text-gray-600">
-                    Already Have An Account?
-                    <a href="{% url 'login' %}" class="text-orange-500 font-semibold hover:underline">Login</a>
-                </p>
-            </form>
-        </div>
-    </section>
-
-
-    <!-- foodter -->
     <section class="bg-[#f4f1ea]">
         <div class="relative z-10 py-24">
             <div class="max-w-7xl mx-auto px-6">
@@ -195,7 +166,7 @@
                             <li><a href="{% url 'index' %}" class="hover:text-green-500 transition">Home</a></li>
                             <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">About Us</a></li>
                             <li><a href="{% url 'menu' %}" class="hover:text-green-500 transition">Menu</a></li>
-                            <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">Blog</a></li>
+                            <li><a href="{% url 'blog' %}" class="hover:text-green-500 transition">Blog</a></li>
                             <li><a href="{% url 'contact' %}" class="hover:text-green-500 transition">Contact Us</a>
                             </li>
                         </ul>
@@ -259,7 +230,6 @@
         </div>
     </section>
 
-    <!-- chatbot -->
     <button id="chatBtn"
         class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[1000] bg-green-600 p-2 sm:p-3 rounded-full shadow-md text-white font-bold text-2xl">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"

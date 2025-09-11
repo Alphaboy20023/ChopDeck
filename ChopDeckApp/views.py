@@ -55,9 +55,9 @@ def blog_detail(request, pk):
                 author=request.user if request.user.is_authenticated else None,
                 content=content
             )
-            return redirect('blog_detail', pk=pk)
+            return redirect('blog-detail', pk=pk)
         
-        return render(request, 'blog_detail.html', {'blog':blog, 'comments':comments})
+    return render(request, 'blog-detail.html', {'blog':blog, 'comments':comments})
     
 @login_required(login_url='login')
 def delete_blog_post(request, pk):

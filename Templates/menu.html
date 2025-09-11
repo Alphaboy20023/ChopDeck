@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu</title>
     <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
@@ -24,69 +25,106 @@
             justify-content: center;
             padding: auto;
         }
-
-        body.menu-open {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
-            height: 100vh;
-        }
     </style>
 </head>
 
 <body class="relative overflow-x-hidden">
-    <nav
-        class="bg-red-700 w-full mx-auto flex items-center justify-between p-4 text-white sticky top-0 z-50 backdrop-blur-xl">
-        <!-- Logo -->
-        <div class="text-2xl font-bold px-3">ChopDeck</div>
+    <nav class="z-50 bg-red-700 w-full mx-auto px-6 p-4 text-white sticky top-0 z-50">
+        <div class="container-fluid">
+            <div class="flex items-center justify-between">
+                <!-- Brand -->
+                <p class="text-2xl font-bold text-white m-0 block">CHOPDECK</p>
 
-        <!-- Links (centered) -->
-        <ul id="menu" class="hidden lg:flex flex-1 justify-center space-x-3 text-xl font-semibold">
-            <li><a href="{% url 'index' %}"
-                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Home</a>
-            </li>
-            <li><a href="{% url 'menu' %}"
-                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Menu</a>
-            </li>
-            <li><a href="{% url 'about' %}"
-                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">About</a>
-            </li>
-            <li><a href="{% url 'blog' %}"
-                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Blog</a>
-            </li>
-            <li><a href="{% url 'contact' %}"
-                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Contact
-                    Us</a></li>
-            <li><a href="{% url 'sign-up' %}"
-                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Sign
-                    Up</a></li>
-        </ul>
+                <!-- Mobile Menu Toggle -->
+                <button class="lg:hidden border-0 p-2 text-2xl" type="button" id="navbar-toggler" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <i class='ti ti-menu'></i>
+                </button>
 
-        <!-- Cart / Menu button (right side) -->
-        <div class="flex items-center space-x-4">
-            <!-- Cart icon -->
-            <a href="" class="text-2xl hover:text-blue-600">
-                🛒
-            </a>
-
-            <!-- Menu Button (mobile) -->
-            <button id="menu-btn" class="lg:hidden text-2xl focus:outline-none">
-                ☰
-            </button>
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:block">
+                    <ul class="flex space-x-2 text-lg">
+                        <li>
+                            <a class="font-medium relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100"
+                                href="{% url 'index' %}">Home</a>
+                        </li>
+                        <li>
+                            <a class="font-medium relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100"
+                                href="{% url 'menu' %}">Menu</a>
+                        </li>
+                        <li>
+                            <a class="font-medium relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100"
+                                href="{% url 'about' %}">About</a>
+                        </li>
+                        <li>
+                            <a class="font-medium relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100"
+                                href="{% url 'blog' %}">Blog</a>
+                        </li>
+                        <li>
+                            <a class="font-medium relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100"
+                                href="{% url 'contact' %}">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="items-center flex gap-2 hidden lg:block">
+                    <a href="cart">
+                        <i class="ti ti-shopping-cart text-2xl"></i>
+                    </a>
+                    <a class="bg-red-600 rounded-lg bg-white text-red-600 text-lg px-3 py-1 rounded-lg font-medium transition-colors"
+                        href="{% url 'sign-up' %}">Sign Up
+                    </a>
+                </div>
+            </div>
         </div>
     </nav>
 
     <!-- Mobile Dropdown -->
-    <div id="mobile-menu"
-        class="lg:hidden hidden px-4 pb-4 text-white text-xl bg-red-700 fixed top-16 left-0 right-0 bottom-0 z-40 overflow-hidden h-full">
-        <ul class="flex flex-col space-y-3 font-semibold h-screen">
-            <li><a href="{% url 'index' %}" class="block hover:text-blue-600">Home</a></li>
-            <li><a href="{% url 'menu' %}" class="block hover:text-blue-600">Menu</a></li>
-            <li><a href="{% url 'about' %}" class="block hover:text-blue-600">About</a></li>
-            <li><a href="{% url 'blog' %}" class="block hover:text-blue-600">Blog</a></li>
-            <li><a href="{% url 'contact' %}" class="block hover:text-blue-600">Contact Us</a></li>
-            <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li>
-        </ul>
+    <!-- Backdrop -->
+    <div id="backdrop" class="backdrop fixed inset-0 bg-white bg-opacity-10 z-40" style="display: none;"></div>
+
+    <!-- Offcanvas Menu (Right Side) -->
+    <div class="offcanvas fixed top-0 bg-white right-0 w-[100%] h-full shadow-sm z-50" tabindex="-1" id="top-navbar"
+        aria-labelledby="top-navbar" style="display: none;">
+
+        <!-- Offcanvas Header -->
+        <div class="flex justify-between p-[15px] items-center border-b border-gray-300">
+            <div class="w-full text-2xl font-bold text-red-600 m-0 block">CHOPDECK</div>
+            <button type="button" class="text-black  hover:text-gray-600 text-4xl transition-colors"
+                id="close-offcanvas" aria-label="Close">
+                <i class='ti ti-x'></i>
+            </button>
+        </div>
+
+        <!-- Offcanvas Body -->
+        <div class="px-7 p-4 flex flex-col gap-10">
+            <ul class="space-y-6">
+                <li class="nav-item">
+                    <a class="block font-medium text-lg hover:text-blue-600 transition-colors" href="{% url 'index' %}"
+                        onclick="closeNavbar()">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="block font-medium text-lg hover:text-blue-600 transition-colors" href="{% url 'menu' %}"
+                        onclick="closeNavbar()">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="block font-medium text-lg hover:text-blue-600 transition-colors" href="{% url 'about' %}"
+                        onclick="closeNavbar()">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="block font-medium text-lg hover:text-blue-600 transition-colors" href="{% url 'blog' %}"
+                        onclick="closeNavbar()">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="block font-medium text-lg hover:text-blue-600 transition-colors"
+                        href="{% url 'contact' %}" onclick="closeNavbar()">contact</a>
+                </li>
+            </ul>
+            <div class="">
+                <a class="bg-red-600 rounded-lg bg-red-600 text-white text-lg px-3 py-1 rounded-lg font-medium transition-colors"
+                    href="{% url 'sign-up' %}">Sign Up
+                </a>
+            </div>
+        </div>
     </div>
 
     <section class="about text-white relative font-bold flex flex-col gap-3">
@@ -153,7 +191,8 @@
                         <!-- Content -->
                         <div class="p-4">
                             <h3 class="text-xl font-semibold">
-                                <a href="{% url 'menu-details' item.pk %}" class="hover:text-orange-500">{{ item.title }}</a>
+                                <a href="{% url 'menu-details' item.pk %}" class="hover:text-orange-500">{{ item.title
+                                    }}</a>
                             </h3>
                             <span class="text-gray-500 text-sm">{{ item.description|truncatechars:60 }}</span>
                             <div class="flex items-center justify-between mt-4">
@@ -231,7 +270,8 @@
                             <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">About Us</a></li>
                             <li><a href="{% url 'menu' %}" class="hover:text-green-500 transition">Menu</a></li>
                             <li><a href="{% url 'blog' %}" class="hover:text-green-500 transition">Blog</a></li>
-                            <li><a href="{% url 'contact' %}" class="hover:text-green-500 transition">Contact Us</a></li>
+                            <li><a href="{% url 'contact' %}" class="hover:text-green-500 transition">Contact Us</a>
+                            </li>
                         </ul>
                     </div>
 
@@ -340,6 +380,7 @@
     </div>
 
     <script src="{% static 'js/menu.js' %}"></script>
+    <script src="{% static 'js/navbar.js' %}"></script>
     <script src="{% static 'js/index.js' %}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
