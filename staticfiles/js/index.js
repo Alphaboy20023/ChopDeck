@@ -1,10 +1,3 @@
-const btn = document.getElementById("menu-btn");
-const mobileMenu = document.getElementById("mobile-menu");
-
-btn.addEventListener("click", () => {
-  mobileMenu.classList.toggle("hidden");
-  document.body.classList.toggle("menu-open");
-});
 
 const chatBtn = document.getElementById('chatBtn');
 const chatModal = document.getElementById('chatModal');

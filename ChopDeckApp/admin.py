@@ -13,11 +13,14 @@ class orderAdmin(admin.ModelAdmin):
     
 class blogAdmin(admin.ModelAdmin):
     list_display = ('author', 'title', 'is_admin_post')
-    
+
+class blogAdmin(admin.ModelAdmin):
+    list_display = ('author', 'blog')  
     
 admin.site.register(FoodItem, FoodAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Blog)
 admin.site.register(OrderFood)
+admin.site.register(Comment)
 
 

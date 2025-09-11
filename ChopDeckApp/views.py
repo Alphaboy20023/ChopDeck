@@ -45,19 +45,21 @@ def blog (request):
 
 def blog_detail(request, pk):
     blog = get_object_or_404(Blog, pk=pk, is_published=True)
+    blogs = Blog.objects.exclude(pk=pk).order_by('-created_at')[:5]
     comments = blog.comments.filter()
+    comment_count = comments.count()
     
     if request.method == "POST":
         content = request.POST.get('content')
         if content:
             Comment.objects.create(
                 blog=blog,
-                author=request.user if request.user.is_authenticated else None,
+                author=any,
                 content=content
             )
             return redirect('blog-detail', pk=pk)
         
-    return render(request, 'blog-detail.html', {'blog':blog, 'comments':comments})
+    return render(request, 'blog-detail.html', {'blog':blog, 'comments':comments, 'blogs':blogs, 'comment_count':comment_count})
     
 @login_required(login_url='login')
 def delete_blog_post(request, pk):

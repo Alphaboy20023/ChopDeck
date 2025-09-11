@@ -149,7 +149,7 @@
                         <img src="{{ blog.image.url }}" alt="image" class="w-full h-48 object-cover">
                     </a>
                     {% else %}
-                    <img src="{% static 'Img/default-food.jpg' %}" alt="{{ item.title }}"
+                    <img src="{% static 'Img/default-food.jpg' %}" alt="{{ blog.title }}"
                         class="max-w-full h-auto object-cover">
                     {% endif %}
                     <div
@@ -163,8 +163,7 @@
                 </div>
                 <div class="p-5">
                     <ul class="flex items-center gap-3 mb-3 text-gray-500 text-sm">
-                        <li class="flex items-center gap-1"><i class="ti ti-users text-base"></i> By <a
-                                href="{% url 'blog-detail' blog.pk %}" class="text-gray-900 font-medium"></a>{{ blog.author|default:"Admin" }}</li>
+                        <li class="flex items-center gap-1"><i class="ti ti-users text-base"></i> By <a href="{% url 'blog-detail' blog.pk %}" class="text-gray-900 font-medium"></a>{{ blog.author|default:"Admin" }}</li>
                         <li class="flex items-center gap-1"><i class="ti ti-message-circle text-base"></i> comments
                         </li>
                     </ul>
