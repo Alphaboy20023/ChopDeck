@@ -10,28 +10,274 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <style>
+        body.menu-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
 </head>
 
 <body class="relative overflow-x-hidden">
-    <nav class="w-full mx-auto flex items-center justify-between p-5 text-white sticky top-0 z-50 bg-red-800 shadow-md">
+    <nav
+        class="bg-red-700 w-full mx-auto flex items-center justify-between p-4 text-white sticky top-0 z-50 backdrop-blur-xl">
         <!-- Logo -->
-        <div class="text-3xl font-bold">ChopDeck</div>
+        <div class="text-2xl font-bold px-3">ChopDeck</div>
 
-        <!-- Menu Button (mobile) -->
-        <button id="menu-btn" class="lg:hidden text-2xl focus:outline-none">
-            ☰
-        </button>
+        <!-- Links (centered) -->
+        <ul id="menu" class="hidden lg:flex flex-1 justify-center space-x-3 text-xl font-semibold">
+            <li><a href="{% url 'index' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Home</a>
+            </li>
+            <li><a href="{% url 'menu' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Menu</a>
+            </li>
+            <li><a href="{% url 'about' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">About</a>
+            </li>
+            <li><a href="{% url 'blog' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Blog</a>
+            </li>
+            <li><a href="{% url 'contact' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Contact
+                    Us</a></li>
+            <li><a href="{% url 'sign-up' %}"
+                    class="relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100">Sign
+                    Up</a></li>
+        </ul>
 
-        <!-- Links -->
-        <ul id="menu" class="hidden lg:flex space-x-6 text-xl font-semibold">
-            <li><a href="{% url 'index' %}" class="hover:text-blue-600">Home</a></li>
-            <li><a href="{% url 'menu' %}" class="hover:text-blue-600">Menu</a></li>
-            <li><a href="{% url 'about' %}" class="hover:text-blue-600">About</a></li>
-            <li><a href="{% url 'blog' %}" class="hover:text-blue-600">Blog</a></li>
-            <li><a href="{% url 'contact' %}" class="hover:text-blue-600">Contact Us</a></li>
+        <!-- Cart / Menu button (right side) -->
+        <div class="flex items-center space-x-4">
+            <!-- Cart icon -->
+            <a href="" class="text-2xl hover:text-blue-600">
+                🛒
+            </a>
+
+            <!-- Menu Button (mobile) -->
+            <button id="menu-btn" class="lg:hidden text-2xl focus:outline-none">
+                ☰
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu"
+        class="lg:hidden hidden px-4 pb-4 text-white text-xl bg-red-700 fixed top-16 left-0 right-0 bottom-0 z-40 overflow-hidden h-full">
+        <ul class="flex flex-col space-y-3 font-semibold h-screen">
+            <li><a href="{% url 'index' %}" class="block hover:text-blue-600">Home</a></li>
+            <li><a href="{% url 'menu' %}" class="block hover:text-blue-600">Menu</a></li>
+            <li><a href="{% url 'about' %}" class="block hover:text-blue-600">About</a></li>
+            <li><a href="{% url 'blog' %}" class="block hover:text-blue-600">Blog</a></li>
+            <li><a href="{% url 'contact' %}" class="block hover:text-blue-600">Contact Us</a></li>
             <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li>
         </ul>
-    </nav>
+    </div>
+
+    <section class="font-bold flex flex-row lg:flex-nowrap flex-wrap items-center">
+        <img src="{% static 'Img/aboutHeader.jpg' %}" alt="" class="w-full">
+        <div class="max-w-7xl mx-auto p-6 rounded-2xl">
+            <form class="space-y-4 lg:pr-12">
+                <h2 class="text-2xl font-bold text-gray-800">Create An Account</h2>
+
+                <input type="text" placeholder="Name"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
+
+                <input type="email" placeholder="Email"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
+
+                <input type="password" placeholder="Password"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
+
+                <input type="password" placeholder="Repeat Password"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
+
+                <button type="submit"
+                    class="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition ">
+                    Register Now
+                </button>
+
+                <p class="text-center text-gray-600">
+                    Already Have An Account?
+                    <a href="{% url 'login' %}" class="text-orange-500 font-semibold hover:underline">Login</a>
+                </p>
+            </form>
+        </div>
+    </section>
+
+
+    <!-- foodter -->
+    <section class="bg-[#f4f1ea]">
+        <div class="relative z-10 py-24">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+                    <!-- Logo & About -->
+                    <div data-aos="fade-up">
+                        <div class="mb-4">
+                            <p class="text-xl font-bold">ChopDeck</p>
+                        </div>
+                        <p class="mb-4 text-gray-700">
+                            A food delivery platform that has revolutionized the way people enjoy meals by bringing
+                            freshly prepared
+                            delicasies to your doorstep.
+                        </p>
+                        <ul class="flex items-center gap-3">
+                            <li>
+                                <a href="https://www.facebook.com/" target="_blank"
+                                    class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                                    <i class="ti ti-brand-facebook text-white"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://twitter.com/" target="_blank"
+                                    class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                                    <i class="ti ti-brand-x text-white"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.instagram.com/" target="_blank"
+                                    class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                                    <i class="ti ti-brand-instagram text-white"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/" target="_blank"
+                                    class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                                    <i class="ti ti-brand-linkedin text-white"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Quick Links -->
+                    <div data-aos="fade-up">
+                        <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+                        <ul class="space-y-2 text-gray-700">
+                            <li><a href="{% url 'index' %}" class="hover:text-green-500 transition">Home</a></li>
+                            <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">About Us</a></li>
+                            <li><a href="{% url 'menu' %}" class="hover:text-green-500 transition">Menu</a></li>
+                            <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">Blog</a></li>
+                            <li><a href="{% url 'contact' %}" class="hover:text-green-500 transition">Contact Us</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Our Menu -->
+                    <div data-aos="fade-up">
+                        <h3 class="text-xl font-bold mb-4">Our Menu</h3>
+                        <ul class="space-y-2">
+                            <li><a href="menu-details.html"
+                                    class="hover:text-green-500 transition text-gray-700">Italian Chines</a>
+                            </li>
+                            <li><a href="menu-details.html"
+                                    class="hover:text-green-500 transition text-gray-700">Chicken Meal</a>
+                            </li>
+                            <li><a href="menu-details.html"
+                                    class="hover:text-green-500 transition text-gray-700">Chicken Ball</a>
+                            </li>
+                            <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Burger
+                                    Kings</a>
+                            </li>
+                            <li><a href="menu-details.html"
+                                    class="hover:text-green-500 transition text-gray-700">Maxican Food</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Contact Us -->
+                    <div data-aos="fade-up">
+                        <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                        <div class="mb-3">
+                            <h4 class="text-lg font-bold">Address:</h4>
+                            <a href="https://maps.app.goo.gl/byqdjUd9y3yP5oh96" target="_blank"
+                                class="text-gray-700 hover:text-green-500 transition">
+                                44, Ikola Estate, Lagos
+                            </a>
+                        </div>
+                        <div class="mb-3">
+                            <h4 class="text-lg font-bold">Phone:</h4>
+                            <a href="tel:123456789" class="text-gray-700 hover:text-green-500 transition">+234 787 456
+                                789</a>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-bold">Email:</h4>
+                            <a href="mailto:info@feedo.com"
+                                class="text-gray-700 hover:text-green-500 transition">chopdeck@yahoo.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="py-4">
+            <div class="max-w-7xl mx-auto px-6 text-center">
+                <p class="text-gray-800 text-base text-lg">
+                    © ChopDeck @2025. All Rights Reserved.
+                    </a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- chatbot -->
+    <button id="chatBtn"
+        class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[1000] bg-green-600 p-2 sm:p-3 rounded-full shadow-md text-white font-bold text-2xl">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-message-square-icon lucide-message-square">
+            <path
+                d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+        </svg>
+    </button>
+    <div id="chatModal"
+        class="fixed top-0 right-0 h-screen w-full sm:w-80 bg-white transform translate-x-full transition-transform z-[1050] flex flex-col">
+
+        <!-- Modal Header -->
+        <div class="p-4 border-b flex justify-between items-center">
+            <h2 class="text-lg font-semibold">ChopDeck AI</h2>
+            <button id="closeBtn" class="text-gray-500 hover:text-gray-800 text-4xl leading-none">&times;</button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Chat area -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-3">
+                <!-- Person A -->
+                <div class="flex">
+                    <div class="bg-gray-200 text-gray-800 px-4 py-2 rounded-2xl rounded-bl-none max-w-[80%]">
+                        Hey! I am ChopDeck Assistant, What would you like to order today?
+                    </div>
+                </div>
+
+                <!-- Person B -->
+                <div class="flex justify-end">
+                    <div class="bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-br-none max-w-[80%]">
+                        I’m good, just working on my project. You?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input area pinned at bottom -->
+            <div class="p-3 border-t flex items-center">
+                <input type="text" placeholder="Type a message..."
+                    class="flex-1 rounded-lg p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button class="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/menu.js' %}"></script>
+    <script src="{% static 'js/index.js' %}"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+        AOS.init({
+            duration: 1000,   // animation duration (ms)
+            once: true,       // whether animation should happen only once
+        });
+    </script>
 </body>
 
 </html>

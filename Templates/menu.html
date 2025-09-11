@@ -161,7 +161,7 @@
                                     class="px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-orange-600 transition-colors">
                                     Order Now
                                 </a>
-                                <h5 class="text-lg font-bold text-green-600">₦{{ item.formatted_price }}</h5>
+                                <h5 class="text-lg font-bold text-green-600">{{ item.formatted_price }}</h5>
                             </div>
                         </div>
                     </div>
@@ -179,7 +179,7 @@
         </div>
     </section>
 
-
+    <!-- footer -->
     <section class="bg-[#f4f1ea]">
         <div class="relative z-10 py-24">
             <div class="max-w-7xl mx-auto px-6">
@@ -229,9 +229,9 @@
                         <ul class="space-y-2 text-gray-700">
                             <li><a href="{% url 'index' %}" class="hover:text-green-500 transition">Home</a></li>
                             <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">About Us</a></li>
-                            <li><a href="menu.html" class="hover:text-green-500 transition">Menu</a></li>
-                            <li><a href="blog.html" class="hover:text-green-500 transition">Blog</a></li>
-                            <li><a href="contact-us.html" class="hover:text-green-500 transition">Contact Us</a></li>
+                            <li><a href="{% url 'menu' %}" class="hover:text-green-500 transition">Menu</a></li>
+                            <li><a href="{% url 'blog' %}" class="hover:text-green-500 transition">Blog</a></li>
+                            <li><a href="{% url 'contact' %}" class="hover:text-green-500 transition">Contact Us</a></li>
                         </ul>
                     </div>
 

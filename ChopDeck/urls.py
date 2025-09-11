@@ -22,6 +22,6 @@ import cloudinary.uploader
 import cloudinary.api
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('ChopDeck/', include("ChopDeckApp.urls")),
+    # path('admin/', admin.site.urls),
+    path('', include("ChopDeckApp.urls")),
 ]
