@@ -62,7 +62,7 @@ def update_cart(request, food_id):
             if request.POST["action"] == "increment":
                 new_qty = current_qty + 1
             elif request.POST["action"] == "decrement":
-                new_qty = max(current_qty - 1, 0)
+                new_qty = current_qty - 1
             else:
                 new_qty = current_qty
         else:

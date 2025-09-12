@@ -1,4 +1,4 @@
-# utils/cart.py
+# cart.py
 from decimal import Decimal
 from django.conf import settings
 from .models import FoodItem 
@@ -21,8 +21,8 @@ class Cart:
             self.cart[food_id]["quantity"] += quantity
         self.save()
 
-    def remove(self, food):
-        food_id = str(food.id)
+    def remove(self, food_id):
+        food_id = str(food_id)
         if food_id in self.cart:
             del self.cart[food_id]
             self.save()
