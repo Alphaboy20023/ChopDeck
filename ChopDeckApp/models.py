@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.humanize.templatetags.humanize import intcomma
 from cloudinary_storage.storage import VideoMediaCloudinaryStorage, MediaCloudinaryStorage
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 
 # Create your models here.
@@ -76,6 +78,8 @@ class FoodItem(TimeStampField):
     def formatted_price(self):
         return f"₦{intcomma(int(self.price))}"
     
+    
+    
     def __str__(self):
         return self.title
 
@@ -113,16 +117,36 @@ class Blog(TimeStampField):
     
     is_admin_post = models.BooleanField(default=False)
     
+    def comment_count(self):
+        blog_type = ContentType.objects.get_for_model(Blog)
+        return Comment.objects.filter(
+            content_type=blog_type,
+            object_id=self.id
+        ).count()
+    
     def __str__(self):
         return self.title
 
 class Comment(TimeStampField):
-    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True)
     content = models.TextField()
+    name=models.CharField(max_length=150, blank=True, null=True)
+    
+    # generic relation
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True)
+    object_id = models.PositiveIntegerField(null=True)
+    content_object = GenericForeignKey("content_type", "object_id")
+    
+    @property
+    def display_name(self):
+        return self.name
     
     def __str__(self):
-        return f"Comment by {self.user.username if self.user else 'Anonymous'} on {self.blog.title}"
+        if self.user:
+            return f"Comment by {self.user.username} on {self.content_object}"
+        return f"Comment by {self.name or 'Anonymous'} on {self.content_object}"
+
+
 
 class Payment(TimeStampField):
     PAYMENT_METHODS = [

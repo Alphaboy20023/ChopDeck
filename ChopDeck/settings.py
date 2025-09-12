@@ -73,12 +73,15 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'ChopDeckApp.context_processors.cart_count',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'ChopDeck.wsgi.application'
+CART_SESSION_ID = "cart"
+
 
 
 # Database
