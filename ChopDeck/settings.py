@@ -130,6 +130,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Paystack settings
+PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY')
+PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY')
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/

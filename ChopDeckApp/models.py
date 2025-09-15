@@ -91,7 +91,7 @@ class Order(TimeStampField):
         ('cancelled', 'Cancelled'),
     ]
     
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='orders')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='orders', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
@@ -103,6 +103,10 @@ class Order(TimeStampField):
     email = models.EmailField(null=True)
     address = models.TextField(null=True)
     notes = models.CharField(max_length=1000, null=True)
+    
+    payment_reference = models.CharField(max_length=100, blank=True)
+    payment_status = models.CharField(max_length=20, default='pending')
+    payment_method = models.CharField(max_length=50, default='paystack')
     
     def __str__(self):
         return f"Order #{self.id} by {self.user.username}"
@@ -177,7 +181,7 @@ class Comment(TimeStampField):
 
 class Payment(TimeStampField):
     PAYMENT_METHODS = [
-        ('card', 'Card'),
+        ('paystack', 'Paystack'),
         ('cash', 'Cash'),
     ]
     

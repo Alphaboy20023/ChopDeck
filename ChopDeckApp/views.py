@@ -1,3 +1,4 @@
+import time
 from django.contrib import messages
 from django.http import HttpResponse 
 from django.shortcuts import redirect, render, get_object_or_404
@@ -12,6 +13,9 @@ from .cart import Cart
 from django.views.decorators.http import require_POST
 from decimal import Decimal
 from django.contrib.humanize.templatetags.humanize import intcomma
+from django.db.models import Q
+import requests
+from django.conf import settings
 
 
 # Create your views here.
@@ -183,6 +187,9 @@ def delete_blog_post(request, pk):
 def contact_us (request):
     return render(request, 'contact.html')
 
+def cancel_order(request):
+    pass
+
 def checkout(request):
     cart = request.session.get('cart', {})
     
@@ -196,6 +203,8 @@ def checkout(request):
         quantity = int(item.get('quantity', 1))
         total = price * quantity
         formatted_price = f"₦ {intcomma(int(price))}"
+        formatted_total = f"₦ {intcomma(int(total))}"
+        
         
 
         cart_items.append({
@@ -203,7 +212,7 @@ def checkout(request):
             "title": food.title,
             "price": formatted_price,
             "quantity": quantity,
-            "total": total,
+            "total": formatted_total,
             "image":food.image
         })
 
@@ -211,6 +220,7 @@ def checkout(request):
     
     shipping_fee = Decimal("1000.00") if sub_total > 0 else Decimal("0.00")
     grand_total = sub_total + shipping_fee
+    
     
     # formatting ,
     formatted_sub_total = f"₦ {intcomma(int(sub_total))}"
@@ -222,6 +232,8 @@ def checkout(request):
         ('cash', 'Cash'),
     ]
     
+    success_message = None
+    
     if request.method == "POST":
         full_name = request.POST.get("full_name")
         phone = request.POST.get("phone")
@@ -230,10 +242,22 @@ def checkout(request):
         message = request.POST.get("message")
         payment_method = request.POST.get("payment_method")
 
+        success_message = "✅ Your order has been placed successfully!"
         # save Order + Payment
-        print(full_name, phone, email, address, message, payment_method)
         
-        messages.success(request, "✅ Your order has been placed successfully!")
+        order = Order.objects.create(
+        full_name=full_name,
+        phone=phone,
+        email=email,
+        address=address,
+        total=grand_total,
+        status="pending",           # or whatever default you use
+        payment_status="initiated", # optional
+        )
+        
+        print(full_name, phone, email, address, message, payment_method)
+        return redirect("payment", order_id=order.id)
+        
     
     context = {
         "cart_items": cart_items,
@@ -241,19 +265,94 @@ def checkout(request):
         "shipping_fee": formatted_shipping_fee,
         "grand_total": formatted_grand_total,
         "payment_methods": PAYMENT_METHODS,
+        "success_message": success_message,
     }
     
     
     return render(request, 'checkout.html', context)
 
-def cancel_order(request):
-    pass
 
-def food_order(request):
-    pass
+def payment_view(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    
+    # Paystack initialization
+    url = "https://api.paystack.co/transaction/initialize"
+    headers = {
+        "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}",
+        "Content-Type": "application/json",
+    }
+    
+    data = {
+        # "email": request.user.email,
+        "amount": int(order.total * 100),  # Paystack uses kobo
+        "reference": f"order_{order.id}_{int(time.time())}",
+        "callback_url": request.build_absolute_uri(reverse('payment_callback')),
+    }
+    
+    response = requests.post(url, json=data, headers=headers)
+    response_data = response.json()
+    
+    if response_data['status']:
+        # Save payment reference
+        order.payment_reference = data['reference']
+        order.save()
+        
+        # Redirect to Paystack
+        return redirect(response_data['data']['authorization_url'])
+    else:
+        messages.error(request, "Payment initialization failed")
+        return redirect('checkout')
 
-def payment(request, pk):
-    pass
+
+
+def payment_callback(request):
+    reference = request.GET.get('reference')
+    
+    if reference:
+        # Verify payment with Paystack
+        url = f"https://api.paystack.co/transaction/verify/{reference}"
+        headers = {
+            "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}",
+        }
+        
+        response = requests.get(url, headers=headers)
+        response_data = response.json()
+        
+        if response_data['status'] and response_data['data']['status'] == 'success':
+            # Payment successful
+            order = Order.objects.get(payment_reference=reference)
+            order.status = 'paid'
+            order.payment_status = 'completed'
+            order.save()
+            
+            messages.success(request, "Payment successful!")
+            return redirect('order_success', order_id=order.id)
+        else:
+            messages.error(request, "Payment failed")
+            return redirect('payment_failed')
+    
+    return redirect('checkout')
+
+
+
+def search_food(request):
+    query = request.GET.get("q", "").strip() # dont understand
+    
+    food_items = FoodItem.objects.filter(is_available=True,).select_related("category")
+    categories = Category.objects.all()
+    
+    if query:
+        food_items = food_items.filter(
+            Q(title__icontains=query) | Q(description__icontains=query) | Q(category__title__icontains=query)
+        )
+        
+    context = {
+        "query":query,
+        "food_items":food_items,
+        "categories":categories
+    }
+    
+    return render(request, 'search.html', context)
 
 def register (request):
     if request.method == 'POST':
