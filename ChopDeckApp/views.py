@@ -242,7 +242,7 @@ def checkout(request):
         message = request.POST.get("message")
         payment_method = request.POST.get("payment_method")
 
-        success_message = "✅ Your order has been placed successfully!"
+        messages.success(request, "✅ Your order has been placed successfully!")
         # save Order + Payment
         
         order = Order.objects.create(
@@ -271,39 +271,41 @@ def checkout(request):
     
     return render(request, 'checkout.html', context)
 
-
 def payment_view(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    
-    # Paystack initialization
+    # print("PAYMENT VIEW STARTED", order_id)
+
+    # Initialize Paystack transaction
     url = "https://api.paystack.co/transaction/initialize"
     headers = {
         "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}",
         "Content-Type": "application/json",
     }
-    
     data = {
-        # "email": request.user.email,
-        "amount": int(order.total * 100),  # Paystack uses kobo
+        "amount": int(order.total * 100),  # amount in kobo
+        "email": order.email,
         "reference": f"order_{order.id}_{int(time.time())}",
         "callback_url": request.build_absolute_uri(reverse('payment_callback')),
     }
-    
-    response = requests.post(url, json=data, headers=headers)
-    response_data = response.json()
-    
-    if response_data['status']:
-        # Save payment reference
-        order.payment_reference = data['reference']
-        order.save()
-        
-        # Redirect to Paystack
-        return redirect(response_data['data']['authorization_url'])
-    else:
-        messages.error(request, "Payment initialization failed")
+
+    try:
+        response = requests.post(url, json=data, headers=headers)
+        response_data = response.json()
+        print("PAYSTACK RESPONSE:", response_data)
+
+        if response_data.get('status') and 'authorization_url' in response_data['data']:
+            order.payment_reference = data['reference']
+            order.save()
+            print("Redirecting to Paystack...")
+            return redirect(response_data['data']['authorization_url'])
+        else:
+            print("Payment initialization failed:", response_data)
+            # Optionally show an error page instead of going back to checkout
+            return redirect('checkout')
+
+    except Exception as e:
+        print("Error initializing Paystack payment:", e)
         return redirect('checkout')
-
-
 
 def payment_callback(request):
     reference = request.GET.get('reference')
@@ -317,6 +319,9 @@ def payment_callback(request):
         
         response = requests.get(url, headers=headers)
         response_data = response.json()
+        
+        print("Paystack response:", response_data)
+
         
         if response_data['status'] and response_data['data']['status'] == 'success':
             # Payment successful
