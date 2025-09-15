@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Checkout</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,8 +13,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 </head>
 
-<body class="relative overflow-x-hidden">
-        <nav class="z-50 bg-red-700 w-full fixed mx-auto px-6 p-4 text-white sticky top-0 z-50">
+<body>
+
+    <section>
+        <nav class="z-50 bg-red-700 w-full mx-auto px-6 p-4 text-white sticky top-0 z-50">
             <div class="container-fluid">
                 <div class="flex items-center justify-between">
                     <!-- Brand -->
@@ -129,41 +131,91 @@
                 </div>
             </div>
         </div>
-
-
-    <section class="font-bold flex flex-row lg:flex-nowrap flex-wrap items-center">
-        <img src="{% static 'Img/aboutHeader.jpg' %}" alt="" class="w-full" data-aos="fade-right">
-        <div class="max-w-7xl mx-auto p-6 rounded-2xl" data-aos="fade-left">
-            <form class="space-y-4 lg:pr-12">
-                <h2 class="text-2xl font-bold text-gray-800">Create An Account</h2>
-
-                <input type="text" placeholder="Name"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
-
-                <input type="email" placeholder="Email"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
-
-                <input type="password" placeholder="Password"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
-
-                <input type="password" placeholder="Repeat Password"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:none outline-none placeholder:text-black">
-
-                <button type="submit"
-                    class="w-full bg-orange-500 text-white font-semibold py-3 rounded-lg hover:bg-orange-600 transition ">
-                    Register Now
-                </button>
-
-                <p class="text-center text-gray-600">
-                    Already Have An Account?
-                    <a href="{% url 'login' %}" class="text-orange-500 font-semibold hover:underline">Login</a>
-                </p>
-            </form>
-        </div>
     </section>
 
+    <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
 
-    <!-- foodter -->
+        <section class="p-6 md:p-12 flex flex-col lg:flex-row justify-center items-start gap-8">
+            <!-- Billing Details -->
+            <div class="flex flex-col gap-5 bg-gray-100 p-6 md:p-9 rounded-md w-full lg:w-1/2">
+                <h1 class="text-xl md:text-2xl font-medium">Billing Details</h1>
+                <input type="text" name="full_name" placeholder="Your full name *"
+                    class="border p-2 w-full rounded-md focus:outline-none" required>
+                <input type="text" name="phone" placeholder="Phone *"
+                    class="border p-2 w-full rounded-md focus:outline-none" required>
+                <input type="email" name="email" placeholder="Email *"
+                    class="border p-2 w-full rounded-md focus:outline-none" required>
+                <input type="text" name="address" placeholder="Address *"
+                    class="border p-2 w-full rounded-md focus:outline-none" required>
+                <textarea name="message" placeholder="Extra Message..."
+                    class="border p-2 w-full rounded-md focus:outline-none"></textarea>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="w-full lg:w-1/2 flex flex-col gap-6">
+
+                <!-- Products -->
+                <div class="p-4 rounded-md bg-gray-100">
+                    <div class="flex justify-between border-b pb-2 text-base md:text-lg font-medium">
+                        <p>Product</p>
+                        <p>Total</p>
+                    </div>
+                    {% for item in cart_items %}
+                    <div class="flex justify-between py-3">
+                        <div class="flex items-center gap-2">
+                            <img src="{{ item.image.url }}" alt="{{ item.title }}" class="h-10">
+                            <p>{{ item.title }}</p>
+                        </div>
+                        <p>₦{{ item.total }}</p>
+                    </div>
+                    {% endfor %}
+                    <div class="flex justify-between text-lg font-semibold">
+                        <p>Subtotal:</p>
+                        <p>{{ sub_total }}</p>
+                    </div>
+                    <div class="flex justify-between text-lg font-semibold">
+                        <p>Shipping:</p>
+                        <p>{{ shipping_fee }}</p>
+                    </div>
+                    <div class="flex justify-between text-lg font-bold border-t pt-2">
+                        <p>Grand Total:</p>
+                        <p>{{ grand_total }}</p>
+                    </div>
+                </div>
+
+                <!-- Payment Options -->
+                <div class="rounded-md bg-gray-100 p-4 flex flex-col gap-3">
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="payment_method" value="bank" required>
+                        <span>Bank Transfer</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                        <input type="radio" name="payment_method" value="cash" required>
+                        <span>Cash on Delivery</span>
+                    </label>
+                    <!-- messages -->
+                    <!-- {% if messages %}
+                    <div class="p-4 mb-4 text-green-800 rounded-lg bg-green-200">
+                        {% for message in messages %}
+                        <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %} -->
+
+                    <!-- place order -->
+                    <button type="submit" id="placeOrderBtn"
+                        class="w-full md:w-40 rounded-full p-2 bg-red-600 text-white font-medium">
+                        Place Order
+                    </button>
+                </div>
+            </div>
+
+        </section>
+    </form>
+
+
+    <!-- footer -->
     <section class="bg-[#f4f1ea]">
         <div class="relative z-10 py-24">
             <div class="max-w-7xl mx-auto px-6">
@@ -214,9 +266,10 @@
                             <li><a href="{% url 'index' %}" class="hover:text-green-500 transition">Home</a></li>
                             <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">About Us</a></li>
                             <li><a href="{% url 'menu' %}" class="hover:text-green-500 transition">Menu</a></li>
-                            <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">Blog</a></li>
+                            <li><a href="{% url 'blog' %}" class="hover:text-green-500 transition">Blog</a></li>
                             <li><a href="{% url 'contact' %}" class="hover:text-green-500 transition">Contact Us</a>
                             </li>
+                            <!-- <li><a href="{% url 'sign-up' %}" class="hover:text-blue-600">Sign Up</a></li> -->
                         </ul>
                     </div>
 
@@ -247,8 +300,7 @@
                         <h3 class="text-xl font-bold mb-4">Contact Us</h3>
                         <div class="mb-3">
                             <h4 class="text-lg font-bold">Address:</h4>
-                            <a href="https://maps.app.goo.gl/byqdjUd9y3yP5oh96" target="_blank"
-                                class="text-gray-700 hover:text-green-500 transition">
+                            <a href="" target="_blank" class="text-gray-700 hover:text-green-500 transition">
                                 44, Ikola Estate, Lagos
                             </a>
                         </div>
@@ -278,54 +330,54 @@
         </div>
     </section>
 
-    <!-- chatbot -->
-    <button id="chatBtn"
-        class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[1000] bg-green-600 p-2 sm:p-3 rounded-full shadow-md text-white font-bold text-2xl">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-            class="lucide lucide-message-square-icon lucide-message-square">
-            <path
-                d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
-        </svg>
-    </button>
-    <div id="chatModal"
-        class="fixed top-0 right-0 h-screen w-full sm:w-80 bg-white transform translate-x-full transition-transform z-[1050] flex flex-col">
+    <section>
+        <button id="chatBtn"
+            class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[1000] bg-green-600 p-2 sm:p-3 rounded-full shadow-md text-white font-bold text-2xl">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-message-square-icon lucide-message-square">
+                <path
+                    d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+            </svg>
+        </button>
+        <div id="chatModal"
+            class="fixed top-0 right-0 h-screen w-full sm:w-80 bg-white transform translate-x-full transition-transform z-[1050] flex flex-col">
 
-        <!-- Modal Header -->
-        <div class="p-4 border-b flex justify-between items-center">
-            <h2 class="text-lg font-semibold">ChopDeck AI</h2>
-            <button id="closeBtn" class="text-gray-500 hover:text-gray-800 text-4xl leading-none">&times;</button>
-        </div>
+            <!-- Modal Header -->
+            <div class="p-4 border-b flex justify-between items-center">
+                <h2 class="text-lg font-semibold">ChopDeck AI</h2>
+                <button id="closeBtn" class="text-gray-500 hover:text-gray-800 text-4xl leading-none">&times;</button>
+            </div>
 
-        <!-- Modal Body -->
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <!-- Chat area -->
-            <div class="flex-1 overflow-y-auto p-4 space-y-3">
-                <!-- Person A -->
-                <div class="flex">
-                    <div class="bg-gray-200 text-gray-800 px-4 py-2 rounded-2xl rounded-bl-none max-w-[80%]">
-                        Hey! I am ChopDeck Assistant, What would you like to order today?
+            <!-- Modal Body -->
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <!-- Chat area -->
+                <div class="flex-1 overflow-y-auto p-4 space-y-3">
+                    <!-- Person A -->
+                    <div class="flex">
+                        <div class="bg-gray-200 text-gray-800 px-4 py-2 rounded-2xl rounded-bl-none max-w-[80%]">
+                            Hey! I am ChopDeck Assistant, What would you like to order today?
+                        </div>
+                    </div>
+
+                    <!-- Person B -->
+                    <div class="flex justify-end">
+                        <div class="bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-br-none max-w-[80%]">
+                            I’m good, just working on my project. You?
+                        </div>
                     </div>
                 </div>
 
-                <!-- Person B -->
-                <div class="flex justify-end">
-                    <div class="bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-br-none max-w-[80%]">
-                        I’m good, just working on my project. You?
-                    </div>
+                <!-- Input area pinned at bottom -->
+                <div class="p-3 border-t flex items-center">
+                    <input type="text" placeholder="Type a message..."
+                        class="flex-1 rounded-lg p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button class="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg">Send</button>
                 </div>
             </div>
-
-            <!-- Input area pinned at bottom -->
-            <div class="p-3 border-t flex items-center">
-                <input type="text" placeholder="Type a message..."
-                    class="flex-1 rounded-lg p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button class="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg">Send</button>
-            </div>
         </div>
-    </div>
+    </section>
 
-    <script src="{% static 'js/menu.js' %}"></script>
     <script src="{% static 'js/chatbot.js' %}"></script>
     <script src="{% static 'js/navbar.js' %}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -334,6 +386,14 @@
         AOS.init({
             duration: 1000,   // animation duration (ms)
             once: true,       // whether animation should happen only once
+        });
+    </script>
+    <script>
+        document.getElementById("placeOrderBtn").addEventListener("click", function () {
+            this.disabled = true;
+            this.innerText = "Processing..."; // optional
+            this.classList.add("opacity-50", "cursor-not-allowed"); // Tailwind fade effect
+            this.form.submit(); // ensure the form still submits
         });
     </script>
 </body>

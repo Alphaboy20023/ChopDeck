@@ -7,10 +7,11 @@ from .models import *
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.db.models import Count
 from django.urls import reverse
 from .cart import Cart
 from django.views.decorators.http import require_POST
+from decimal import Decimal
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 
 # Create your views here.
@@ -47,9 +48,24 @@ def remove_from_cart(request, food_id):
     cart.remove(food)
     return redirect("cart")
 
-def cart(request):
+def cart(request, order_id=None):
     cart = Cart(request)
-    return render(request, "cart.html", {"cart": cart})
+    
+    sub_total = sum(Decimal(item['price']) * int(item['quantity']) for item in cart)
+    shipping_fee = Decimal("1000.00") if sub_total > 0 else Decimal("0.00")
+    grand_total = sub_total + shipping_fee
+    
+    # formatting ,
+    formatted_sub_total = f"₦ {intcomma(int(sub_total))}"
+    formatted_shipping_fee = f"₦ {intcomma(int(shipping_fee))}"
+    formatted_grand_total = f"₦ {intcomma(int(grand_total))}"
+    
+    return render(request, "cart.html", {
+        "cart": cart,
+        "sub_total":formatted_sub_total,
+        "shipping_fee":formatted_shipping_fee,
+        "grand_total":formatted_grand_total
+        })
 
 @require_POST
 def update_cart(request, food_id):
@@ -168,7 +184,67 @@ def contact_us (request):
     return render(request, 'contact.html')
 
 def checkout(request):
-    return render(request, 'checkout.html')
+    cart = request.session.get('cart', {})
+    
+    cart_items = []
+    sub_total = Decimal("0.00")
+    
+    for product_id, item in cart.items():
+        food = FoodItem.objects.get(id=product_id)
+        
+        price = Decimal(item.get('price', 0))
+        quantity = int(item.get('quantity', 1))
+        total = price * quantity
+        formatted_price = f"₦ {intcomma(int(price))}"
+        
+
+        cart_items.append({
+            "id": product_id,
+            "title": food.title,
+            "price": formatted_price,
+            "quantity": quantity,
+            "total": total,
+            "image":food.image
+        })
+
+        sub_total += total
+    
+    shipping_fee = Decimal("1000.00") if sub_total > 0 else Decimal("0.00")
+    grand_total = sub_total + shipping_fee
+    
+    # formatting ,
+    formatted_sub_total = f"₦ {intcomma(int(sub_total))}"
+    formatted_shipping_fee = f"₦ {intcomma(int(shipping_fee))}"
+    formatted_grand_total = f"₦ {intcomma(int(grand_total))}"
+    
+    PAYMENT_METHODS = [
+        ('card', 'Card'),
+        ('cash', 'Cash'),
+    ]
+    
+    if request.method == "POST":
+        full_name = request.POST.get("full_name")
+        phone = request.POST.get("phone")
+        email = request.POST.get("email")
+        address = request.POST.get("address")
+        message = request.POST.get("message")
+        payment_method = request.POST.get("payment_method")
+
+        # save Order + Payment
+        print(full_name, phone, email, address, message, payment_method)
+        
+        messages.success(request, "✅ Your order has been placed successfully!")
+    
+    context = {
+        "cart_items": cart_items,
+        "sub_total": formatted_sub_total,
+        "shipping_fee": formatted_shipping_fee,
+        "grand_total": formatted_grand_total,
+        "payment_methods": PAYMENT_METHODS,
+    }
+    
+    
+    return render(request, 'checkout.html', context)
 
 def cancel_order(request):
     pass

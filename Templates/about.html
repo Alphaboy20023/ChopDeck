@@ -37,6 +37,7 @@
 </head>
 
 <body class="relative overflow-x-hidden">
+
     <nav class="z-50 bg-red-700 w-full mx-auto px-6 p-4 text-white sticky top-0 z-50">
         <div class="container-fluid">
             <div class="flex items-center justify-between">
@@ -44,10 +45,21 @@
                 <p class="text-2xl font-bold text-white m-0 block">CHOPDECK</p>
 
                 <!-- Mobile Menu Toggle -->
-                <button class="lg:hidden border-0 p-2 text-2xl" type="button" id="navbar-toggler" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <i class='ti ti-menu'></i>
-                </button>
+                <div>
+                    <a href="{% url 'cart' %}" class="relative inline-block lg:hidden">
+                        <i class="ti ti-shopping-cart text-3xl"></i>
+                        {% if cart_count > 0 %}
+                        <span
+                            class="absolute -top-2 -right-2 flex items-center justify-center w-4 h-4 text-xs font-bold text-red-600 bg-white rounded-full">
+                            {{ cart_count }}
+                        </span>
+                        {% endif %}
+                    </a>
+                    <button class="lg:hidden border-0 p-2 text-2xl" type="button" id="navbar-toggler"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <i class='ti ti-menu'></i>
+                    </button>
+                </div>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden lg:block">
@@ -74,14 +86,21 @@
                         </li>
                     </ul>
                 </div>
-                <div class="items-center flex gap-2 hidden lg:block">
-                    <a href="cart">
-                        <i class="ti ti-shopping-cart text-2xl"></i>
+                <div class="items-center flex space-x-2 hidden lg:block">
+                    <a href="{% url 'cart' %}" class="relative inline-block">
+                        <i class="ti ti-shopping-cart text-3xl"></i>
+                        {% if cart_count > 0 %}
+                        <span
+                            class="absolute -top-2 -right-2 flex items-center justify-center w-4 h-4 text-xs font-bold text-red-600 bg-white rounded-full">
+                            {{ cart_count }}
+                        </span>
+                        {% endif %}
                     </a>
-                    <a class="bg-red-600 rounded-lg bg-white text-red-600 text-lg px-3 py-1 rounded-lg font-medium transition-colors"
+                    <a class="bg-red-600 rounded-lg bg-white text-red-600 text-lg px-3 py-1 font-medium transition-colors"
                         href="{% url 'sign-up' %}">Sign Up
                     </a>
                 </div>
+
             </div>
         </div>
     </nav>
@@ -134,6 +153,7 @@
             </div>
         </div>
     </div>
+
 
     <section class="about text-white relative font-bold flex flex-col gap-3">
         <div class="absolute inset-0 bg-black/40"></div>
