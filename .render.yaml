@@ -1,6 +1,10 @@
 services:
   - type: web
-    name: chopdeck
+    name: ChopDeck
     env: docker
     plan: free
     dockerComposeFilePath: ./docker-compose.yml
+    buildCommand: |
+      pip install --upgrade pip setuptools wheel
+      pip install -r requirements.txt
+    startCommand: gunicorn ChopDeck.wsgi:application
