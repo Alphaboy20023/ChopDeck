@@ -1,0 +1,577 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=chat_bubble" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=restaurant" />
+  <title>App</title>
+  <style>
+    .stats-bg {
+      background-image: url("{% static 'Img/HeaderPicture.jpg' %}");
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      width: 100%;
+      border-radius: 20px;
+    }
+  </style>
+</head>
+
+<body class="relative overflow-x-hidden">
+  <!-- navbar -->
+  <nav class="z-50 bg-red-700 w-full mx-auto px-6 p-4 text-white sticky top-0 z-50">
+    <div class="container-fluid">
+      <div class="flex items-center justify-between">
+        <!-- Brand -->
+        <div>
+          <p class="text-2xl font-bold text-white m-0 block">CHOPDECK</p>
+          <form method="get" action="{% url 'search' %}" class="lg:hidden">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search food..."
+              class="border px-1 p-[2px] rounded w-1/2 text-black">
+            <button type="submit"><i class="ti ti-search font-semibold text-xl"></i></button>
+          </form>
+        </div>
+        <!-- Mobile Menu Toggle -->
+        <div class="flex items-center">
+          <a href="{% url 'cart' %}" class="relative inline-block lg:hidden">
+            <i class="ti ti-shopping-cart text-3xl"></i>
+            {% if cart_count > 0 %}
+            <span
+              class="absolute -top-2 -right-2 flex items-center justify-center w-4 h-4 text-xs font-bold text-red-600 bg-white rounded-full">
+              {{ cart_count }}
+            </span>
+            {% endif %}
+          </a>
+          <button class="lg:hidden border-0 p-2 text-2xl" type="button" id="navbar-toggler" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <i class='ti ti-menu'></i>
+          </button>
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden lg:block">
+          <ul class="flex space-x-2 text-lg">
+            <li>
+              <a class="font-medium relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100"
+                href="{% url 'index' %}">Home</a>
+            </li>
+            <li>
+              <a class="font-medium relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100"
+                href="{% url 'menu' %}">Menu</a>
+            </li>
+            <li>
+              <a class="font-medium relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100"
+                href="{% url 'about' %}">About</a>
+            </li>
+            <li>
+              <a class="font-medium relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100"
+                href="{% url 'blog' %}">Blog</a>
+            </li>
+            <li>
+              <a class="font-medium relative px-4 py-2 rounded-full transition after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-blue-500 after:scale-x-0 after:origin-left after:transition-transform hover:after:scale-x-100"
+                href="{% url 'contact' %}">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <div class="flex gap-5 items-center hidden lg:flex">
+          <form method="get" action="{% url 'search' %}" class="">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search food..."
+              class="border px-1 p-[0.5] rounded w-1/2 text-black">
+            <button type="submit"><i class="ti ti-search font-semibold text-xl"></i></button>
+          </form>
+          <!-- <div class="items-center flex space-x-2 hidden lg:block"> -->
+          <a href="{% url 'cart' %}" class="relative inline-block">
+            <i class="ti ti-shopping-cart text-3xl"></i>
+            {% if cart_count > 0 %}
+            <span
+              class="absolute -top-2 -right-2 flex items-center justify-center w-4 h-4 text-xs font-bold text-red-600 bg-white rounded-full">
+              {{ cart_count }}
+            </span>
+            {% endif %}
+          </a>
+          <a class="bg-red-600 rounded-lg bg-white text-red-600 text-lg px-3 py-1 font-medium transition-colors"
+            href="{% url 'sign-up' %}">Sign Up
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Dropdown -->
+  <!-- Backdrop -->
+  <div id="backdrop" class="backdrop fixed inset-0 bg-white bg-opacity-10 z-40" style="display: none;"></div>
+
+  <!-- Offcanvas Menu (Right Side) -->
+  <div class="offcanvas fixed top-0 bg-white right-0 w-[100%] h-full shadow-sm z-50" tabindex="-1" id="top-navbar"
+    aria-labelledby="top-navbar" style="display: none;">
+
+    <!-- Offcanvas Header -->
+    <div class="flex justify-between p-[15px] items-center border-b border-gray-300">
+      <div class="w-full text-2xl font-bold text-red-600 m-0 block">CHOPDECK</div>
+      <button type="button" class="text-black  hover:text-gray-600 text-4xl transition-colors" id="close-offcanvas"
+        aria-label="Close">
+        <i class='ti ti-x'></i>
+      </button>
+    </div>
+
+    <!-- Offcanvas Body -->
+    <div class="px-7 p-4 flex flex-col gap-10">
+      <ul class="space-y-6">
+        <li class="nav-item">
+          <a class="block font-medium text-lg hover:text-blue-600 transition-colors" href="{% url 'index' %}"
+            onclick="closeNavbar()">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="block font-medium text-lg hover:text-blue-600 transition-colors" href="{% url 'menu' %}"
+            onclick="closeNavbar()">Menu</a>
+        </li>
+        <li class="nav-item">
+          <a class="block font-medium text-lg hover:text-blue-600 transition-colors" href="{% url 'about' %}"
+            onclick="closeNavbar()">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="block font-medium text-lg hover:text-blue-600 transition-colors" href="{% url 'blog' %}"
+            onclick="closeNavbar()">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="block font-medium text-lg hover:text-blue-600 transition-colors" href="{% url 'contact' %}"
+            onclick="closeNavbar()">contact</a>
+        </li>
+      </ul>
+      <div class="">
+        <a class="bg-red-600 rounded-lg bg-red-600 text-white text-lg px-3 py-1 rounded-lg font-medium transition-colors"
+          href="{% url 'sign-up' %}">Sign Up
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+  <header class="bg-red-700">
+    <section class="text-white  px-5 py-2 overflow-hidden gap-4 flex items-center pt-[80px]" data-aos="fade-down">
+      <div class="w-full lg:px-12 mx-auto lg:flex lg:items-center lg:justify-between relative z-10">
+        <!-- Left Content -->
+        <div class="lg:w-full space-y-6 py-6">
+          <img src="{% static 'Img/jollofRice.jpg' %}" alt="spinning-rice" class="p-3 max-w-full h-auto"
+            data-aos="fade-left">
+          <span class="text-xl font-medium tracking-wide uppercase text-green-400 sub-title">
+            Taste the Unique Flavor
+          </span>
+          <h2 class="text-4xl lg:text-5xl font-bold leading-tight">
+            Discover <span class="block">true deliciousness</span>
+          </h2>
+          <p class="text-lg text-green-100 max-w-md">
+            Choose your favorite cupcakes for same-day delivery or quick pick-up!
+          </p>
+
+          <a href="shop.html"
+            class="inline-block bg-white text-green-900 font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-100 transition">
+            Order Now
+          </a>
+
+          <!-- Features -->
+          <ul class="mt-6 space-y-3 border border-white rounded-xl lg:w-[16vw] w-64 p-2 font-semibold">
+            <li class="flex items-center gap-2">
+              <i class="ti ti-check text-green-300"></i>
+              Always Fresh
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="ti ti-check text-green-300"></i>
+              Fast & Reliable Delivery
+            </li>
+          </ul>
+        </div>
+
+        <div class="stats-bg flex items-center justify-center" data-aos="fade-left">
+          <div class="mt-12 lg:mt-0 lg:w-2/3 grid grid-cols-2 gap-8 text-center">
+            <div class="bg-green-800 bg-opacity-60 p-6 rounded-xl shadow-md animate-bounce [animation-duration:7s]">
+              <p class="text-5xl font-extrabold">110+</p>
+              <p class="mt-2 font-medium">Happy Customers</p>
+            </div>
+            <div class="bg-green-800 bg-opacity-80 p-6 rounded-xl shadow-md">
+              <p class="text-5xl font-extrabold">4.9</p>
+              <p class="mt-2 font-medium">Market Rating</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </header>
+
+  <!-- Our Services -->
+  <section class="flex flex-col lg:flex-row gap-10 items-center px-6 py-12 max-w-full mx-auto">
+    <!-- Left image -->
+    <img src="{% static 'Img/ourServices.png' %}" alt="" class="w-full lg:w-1/2  max-w-full h-auto"
+      data-aos="fade-right">
+
+    <!-- Right content -->
+    <aside class="text-center lg:text-left space-y-6 w-full lg:w-1/2">
+      <p class="text-green-600 text-lg font-semibold">Our Services</p>
+      <h1 class="text-2xl sm:text-3xl font-bold">Your Favorite Food Services</h1>
+
+      <!-- Cards container -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- First card -->
+        <div class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3 text-start" data-aos="fade-right">
+          <span
+            class="material-symbols-outlined mx-auto lg:mx-0 rounded-lg p-2 bg-orange-200 hover:text-white hover:bg-orange-600 transition">restaurant</span>
+          <h1 class="text-lg sm:text-xl font-bold">Local Restaurants</h1>
+          <p class="text-sm sm:text-base">
+            Enjoy restaurant-quality meals comfort of home with our fast and reliable food delivery service craving a
+            delicious swallow.
+          </p>
+        </div>
+
+        <!-- Second card -->
+        <div class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3 text-start" data-aos="fade-left">
+          <i
+            class='ti ti-truck text-3xl lg:mx-0 rounded-lg p-2 bg-orange-200 hover:text-white hover:bg-orange-600 transition'></i>
+          <h1 class="text-lg sm:text-xl font-bold ">Food Delivery</h1>
+          <p class="text-sm sm:text-base">
+            Enjoy restaurant-quality meals comfort of home with our fast and reliable food delivery service craving
+            delicious foods at your doorstep.
+          </p>
+        </div>
+
+        <!-- Third card (centered below both) -->
+        <div
+          class="border border-white shadow-lg p-5 rounded-lg bg-white space-y-3 md:col-span-2 md:w-2/3 lg:w-1/2 mx-auto text-start"
+          data-aos="fade-up">
+          <i
+            class='ti ti-burger text-3xl lg:mx-0 rounded-lg p-2 bg-orange-200 hover:text-white hover:bg-orange-600 transition'></i>
+          <h1 class="text-lg sm:text-xl font-bold">Health Food</h1>
+          <p class="text-sm sm:text-base">
+            Enjoy restaurant-quality meals comfort of home with our fast and reliable food delivery service craving a
+            delicious swallow.
+          </p>
+        </div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- How it works -->
+  <section class="flex flex-col lg:flex-row gap-10 bg-gray-100 items-center px-9 py-7 max-w-full mx-auto">
+    <!-- Left content -->
+    <aside class="text-center lg:text-left space-y-6 w-full lg:w-1/2 p-2">
+      <img src="{% static 'Img/how-it-works-bouncingpic.png' %}" alt="how-it-works"
+        class="animate-bounce [animation-duration:7s] relative right-12  max-w-full h-auto">
+      <p class="text-green-600 text-2xl text-center font-semibold">How it Works</p>
+      <h1 class="text-2xl sm:text-3xl font-bold">Renowned For Crafting The Finest Poundo Yam In Your Town.</h1>
+      <p>At ChopDeck we’re passionate about serving the best meals made with fresh and authentic flavors. Whether you're
+        dining in or ordering from the comfort of your home, our fast and reliable food delivery service</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="flex items-center gap-3" data-aos="fade-right">
+          <i class="ti ti-brand-deliveroo text-2xl rounded-full p-2 bg-orange-300"></i>
+          <h4 class="text-lg font-semibold">Choose Your Favorite</h4>
+        </div>
+
+        <div class="flex items-center gap-3" data-aos="fade-left">
+          <i class="ti ti-moped text-2xl rounded-full p-2 bg-orange-300"></i>
+          <h4 class="text-lg font-semibold">Cash On Delivery</h4>
+        </div>
+
+        <div class="flex items-center gap-3" data-aos="fade-right">
+          <i class="ti ti-burger text-2xl rounded-full p-2 bg-orange-300"></i>
+          <h4 class="text-lg font-semibold">Food Health Check</h4>
+        </div>
+
+        <div class="flex items-center gap-3" data-aos="fade-left">
+          <i class="ti ti-tools-kitchen-2 text-2xl rounded-full p-2 bg-orange-300"></i>
+          <h4 class="text-lg font-semibold">Eat And Worry No More</h4>
+        </div>
+      </div>
+    </aside>
+    <!-- Right image -->
+    <img src="{% static 'Img/poundedyam.jpg' %}" alt="" class="lg:w-1/2  max-w-full h-auto" data-aos="fade-left">
+  </section>
+
+  <!-- Menu Area -->
+  <section class="py-20 bg-cover bg-center">
+    <div class="container mx-auto px-6" x-data="{ tab: 'all' }">
+      <!-- Section Title -->
+      <div class="text-center mb-10">
+        <span class="text-green-600 text-lg font-semibold">Popular Menu</span>
+        <h2 class="text-3xl md:text-4xl font-bold">Choose Your Favorite Food</h2>
+      </div>
+
+      <!-- Tabs -->
+      <ul class="flex justify-center gap-4 mb-10 flex-wrap">
+        <li>
+          <button @click="tab='all'" :class="tab==='all' ? 'bg-green-600 text-white' : 'bg-gray-200'"
+            class="px-5 py-2 rounded-lg font-semibold">All</button>
+        </li>
+        {% for cat in categories %}
+        <li>
+          <button @click="tab='{{ cat.id }}'" :class="tab==='{{ cat.id }}' ? 'bg-green-600 text-white' : 'bg-gray-200'"
+            class="px-5 py-2 rounded-lg font-semibold">{{ cat.title }}</button>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <!-- Tab Content -->
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {% for item in foodItems %}
+        {% if item.is_available %}
+        <div x-show="tab==='all' || tab==='{{ item.category.id }}'"
+          class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition" data-aos="fade-up">
+          {% if item.image %}
+          <img src="{{ item.image.url }}" alt="{{ item.title }}" class="max-w-full object-cover">
+          {% else %}
+          <img src="{% static 'Img/default-food.jpg' %}" alt="{{ item.title }}" class="max-w-full h-auto object-cover">
+          {% endif %}
+          <div class="p-4 space-y-5">
+            <h3 class="text-xl font-bold">{{ item.title }}</h3>
+            <span class="text-gray-600">{{ item.description }}</span>
+            <div class="flex justify-between items-center mt-3">
+              <a href="{% url 'menu-details' item.pk %}"
+                class="bg-green-600 text-white px-4 py-1 rounded-lg hover:bg-orange-700">Order
+                Now</a>
+              <h5 class="text-lg font-bold">{{ item.formatted_price }}</h5>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% empty %}
+        <p class="col-span-full text-center text-gray-500">No food items available.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- About us -->
+  <section>
+    <div class="relative z-10 overflow-hidden py-12 bg-gray-100">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-7 items-center">
+
+          <!-- Left Content -->
+          <div>
+            <p data-aos="fade-up"><span class="text-green-600 font-medium uppercase tracking-wide">About Us</span></p>
+            <h2 class="text-3xl md:text-4xl font-bold mt-3" data-aos="fade-up">Restaurant quality Food Delivered To You
+            </h2>
+            <p class="text-gray-600 mt-4" data-aos="fade-up">
+              In today's fast-paced world, restaurants and food delivery services play a vital role in meeting the
+              demands of modern lifestyles. From cozy local diners to global fast-food chains, restaurants offer a
+              variety of cuisines to suit every taste.
+            </p>
+            <ul class="space-y-3 mt-6">
+              <li class="flex items-center gap-3 text-gray-700" data-aos="fade-up">
+                <i class="ti ti-circle-check-filled text-green-600"></i>
+                Delicious Food Delivered to Your Doorstep
+              </li>
+              <li class="flex items-center gap-3 text-gray-700" data-aos="fade-up">
+                <i class="ti ti-circle-check-filled text-green-600"></i>
+                Savor Every Bite Dine In or Order Out
+              </li>
+              <li class="flex items-center gap-3 text-gray-700" data-aos="fade-up">
+                <i class="ti ti-circle-check-filled text-green-600"></i>
+                Dine In Comfort with Exceptional Service
+              </li>
+              <li class="flex items-center gap-3 text-gray-700" data-aos="fade-up">
+                <i class="ti ti-circle-check-filled text-green-600"></i>
+                Order Online Hot Meals Quick Delivery
+              </li>
+            </ul>
+            <a href="{% url 'about' %}" data-aos="fade-up"
+              class="inline-block mt-6 lg:mt-8 px-6 py-3 bg-green-600 text-white font-medium rounded-lg shadow hover:bg-green-700 transition">
+              About Us
+            </a>
+          </div>
+
+          <!-- Right Image -->
+          <div class="ml-auto">
+            <img class="rounded-lg  max-w-full h-auto" src="{% static 'Img/about-us.jpg' %}" alt="about-us"
+              data-aos="fade-left">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <section class="bg-[#f4f1ea]">
+    <div class="relative z-10 py-24">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+          <!-- Logo & About -->
+          <div data-aos="fade-up">
+            <div class="mb-4">
+              <p class="text-xl font-bold">ChopDeck</p>
+            </div>
+            <p class="mb-4 text-gray-700">
+              A food delivery platform that has revolutionized the way people enjoy meals by bringing freshly prepared
+              delicasies to your doorstep.
+            </p>
+            <ul class="flex items-center gap-3">
+              <li>
+                <a href="https://www.facebook.com/" target="_blank"
+                  class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                  <i class="ti ti-brand-facebook text-white"></i>
+                </a>
+              </li>
+              <li>
+                <a href="https://twitter.com/" target="_blank"
+                  class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                  <i class="ti ti-brand-x text-white"></i>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/" target="_blank"
+                  class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                  <i class="ti ti-brand-instagram text-white"></i>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.linkedin.com/" target="_blank"
+                  class="w-10 h-10 flex items-center justify-center rounded-full bg-red-700 hover:bg-green-600 transition">
+                  <i class="ti ti-brand-linkedin text-white"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Quick Links -->
+          <div data-aos="fade-up">
+            <h3 class="text-xl font-bold mb-4">Quick Links</h3>
+            <ul class="space-y-2 text-gray-700">
+              <li><a href="{% url 'index' %}" class="hover:text-green-500 transition">Home</a></li>
+              <li><a href="{% url 'about' %}" class="hover:text-green-500 transition">About Us</a></li>
+              <li><a href="{% url 'menu' %}" class="hover:text-green-500 transition">Menu</a></li>
+              <li><a href="{% url 'blog' %}" class="hover:text-green-500 transition">Blog</a></li>
+              <li><a href="{% url 'contact' %}" class="hover:text-green-500 transition">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <!-- Our Menu -->
+          <div data-aos="fade-up">
+            <h3 class="text-xl font-bold mb-4">Our Menu</h3>
+            <ul class="space-y-2">
+              <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Italian Chines</a>
+              </li>
+              <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Chicken Meal</a>
+              </li>
+              <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Chicken Ball</a>
+              </li>
+              <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Burger Kings</a>
+              </li>
+              <li><a href="menu-details.html" class="hover:text-green-500 transition text-gray-700">Maxican Food</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact Us -->
+          <div data-aos="fade-up">
+            <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+            <div class="mb-3">
+              <h4 class="text-lg font-bold">Address:</h4>
+              <a href="https://maps.app.goo.gl/byqdjUd9y3yP5oh96" target="_blank"
+                class="text-gray-700 hover:text-green-500 transition">
+                44, Ikola Estate, Lagos
+              </a>
+            </div>
+            <div class="mb-3">
+              <h4 class="text-lg font-bold">Phone:</h4>
+              <a href="tel:123456789" class="text-gray-700 hover:text-green-500 transition">+234 787 456 789</a>
+            </div>
+            <div>
+              <h4 class="text-lg font-bold">Email:</h4>
+              <a href="mailto:info@feedo.com"
+                class="text-gray-700 hover:text-green-500 transition">chopdeck@yahoo.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="py-4">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <p class="text-gray-800 text-base text-lg">
+          © ChopDeck @2025. All Rights Reserved.
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <button id="chatBtn"
+    class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[1000] bg-green-600 p-2 sm:p-3 rounded-full shadow-md text-white font-bold text-2xl">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="lucide lucide-message-square-icon lucide-message-square">
+      <path
+        d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z" />
+    </svg>
+  </button>
+
+  <!-- Side Modal -->
+  <div id="chatModal"
+    class="fixed top-0 right-0 h-screen w-full sm:w-80 bg-white transform translate-x-full transition-transform z-[1050] flex flex-col">
+
+    <!-- Modal Header -->
+    <div class="p-4 border-b flex justify-between items-center">
+      <h2 class="text-lg font-semibold">ChopDeck AI</h2>
+      <button id="closeBtn" class="text-gray-500 hover:text-gray-800 text-4xl leading-none">&times;</button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      <!-- Chat area -->
+      <div id="chatArea" class="flex-1 overflow-y-auto p-4 space-y-3">
+        <!-- bot -->
+        <!-- user -->
+      </div>
+
+      <!-- Input area pinned at bottom -->
+      <div class="p-3 border-t flex items-center">
+        <input id="chatInput" type="text" placeholder="Type a message..."
+          class="flex-1 rounded-lg p-2 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button id="sendBtn" class="ml-2 bg-blue-600 text-white px-4 py-2 rounded-lg">Send</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script src="{% static 'js/chatbot.js' %}"></script>
+  <script src="{% static 'js/navbar.js' %}"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script>
+    AOS.init({
+      duration: 1000,   // animation duration (ms)
+      once: true,       // whether animation should happen only once
+    });
+  </script>
+</body>
+
+</html>
+<!-- fade-up
+
+fade-down
+
+fade-left
+
+fade-right
+
+zoom-in
+
+zoom-out
+
+flip-left
+
+flip-right -->

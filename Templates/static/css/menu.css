@@ -1,0 +1,35 @@
+ .menu-card {
+     opacity: 0;
+     transform: translateY(16px);
+     transition: all 0.5s ease;
+ }
+
+ .menu-card {
+     width: 280px;
+     flex: 0 0 auto;
+ }
+
+ .menu-card.show {
+     opacity: 1;
+     transform: translateY(0);
+ }
+
+ .filter-btn.active {
+     background-color: #f97316;
+     color: white;
+ }
+
+ .page-btn.active {
+     background-color: #f97316;
+     color: white;
+     transform: scale(1.1);
+ }
+
+ 
+
+ @media (max-width: 640px) {
+     .menu-card {
+         width: 100%;
+         max-width: 400px;
+     }
+ }

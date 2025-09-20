@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: chopdeck
+    env: docker
+    plan: free
+    dockerComposeFilePath: ./docker-compose.yml
