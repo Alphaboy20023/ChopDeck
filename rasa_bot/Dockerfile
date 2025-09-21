@@ -10,7 +10,7 @@ COPY . .
 RUN rasa train
 
 USER 1001
-EXPOSE 5005
+EXPOSE $PORT
 
 # Use environment variable PORT that Render provides
-CMD rasa run --enable-api --cors "*" --port $PORT
+CMD rasa run --enable-api --cors "*" --port $PORT --debug
