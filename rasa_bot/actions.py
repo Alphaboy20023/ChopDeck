@@ -12,7 +12,7 @@ class ActionGetMenu(Action):
             # Call Django API endpoint
             response = requests.get(
                 'https://chopdeck-9afj.onrender.com/api/food-items/', 
-                timeout=10
+                timeout=50
             )
             
             if response.status_code == 200:
