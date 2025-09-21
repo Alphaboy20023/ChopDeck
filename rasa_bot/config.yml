@@ -1,17 +1,18 @@
 language: en
+
 pipeline:
-- name: WhitespaceTokenizer
-- name: RegexFeaturizer
-- name: LexicalSyntacticFeaturizer
-- name: CountVectorsFeaturizer
-- name: DIETClassifier
-- name: EntitySynonymMapper
-- name: ResponseSelector
+  - name: WhitespaceTokenizer
+  - name: RegexFeaturizer
+  - name: LexicalSyntacticFeaturizer
+  - name: CountVectorsFeaturizer
+  - name: DIETClassifier
+  - name: EntitySynonymMapper
+  - name: ResponseSelector
 
 policies:
-- name: MemoizationPolicy
-- name: RulePolicy
-- name: AugmentedMemoizationPolicy
-- name: constrain_similarities: true
+  - name: MemoizationPolicy
+  - name: RulePolicy
+  - name: AugmentedMemoizationPolicy
+    constrain_similarities: true
 
 assistant_id: 20250920-145427-giant-effect
