@@ -35,7 +35,7 @@ async function sendMessage() {
   chatInput.value="";
 
   try {
-    // https://chopdeck-9afj.onrender.com//webhooks/rest/webhook
+    // https://rasa-bot-eurw.onrender.com/webhooks/rest/webhook
     const response = await fetch("http://localhost:5005/webhooks/rest/webhook", {
       method: "POST",
       headers: { "Content-Type": "application/json"},

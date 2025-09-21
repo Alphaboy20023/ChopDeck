@@ -17,6 +17,4 @@ services:
     ports:
       - "5005:5005"
       - "5055:5055"
-    command: >
-      sh -c "rasa run actions --port 5055 & 
-             rasa run --enable-api --cors '*' --port 5005"
+    command: sh -c "rasa run actions --port 5055 & rasa run --enable-api --cors '*' --port 5005 & wait"
