@@ -369,7 +369,7 @@ def chat_proxy(request):
             user_message = json.loads(request.body).get('message', '')
             
             response = requests.post(
-                'https://rasa-bot-eurw.onrender.com/webhooks/rest/webhook',
+                'https://rasa-bot-p3ib.onrender.com/webhooks/rest/webhook',
                 json={'sender': 'frontend-user', 'message': user_message},
                 timeout=10
             )
