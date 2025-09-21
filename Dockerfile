@@ -1,27 +1,26 @@
-# Base image
-FROM python:3.11-slim
+# Use a slim Python 3.10 image
+FROM python:3.10.14-slim
 
-# Set environment
 ENV PYTHONUNBUFFERED=1
-
-# Set workdir
 WORKDIR /app
 
-# Copy everything
-COPY . /app
+# Install system build deps needed for many ML packages
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      build-essential gcc git curl ca-certificates \
+      libffi-dev libssl-dev libsndfile1 libatlas-base-dev libblas-dev liblapack-dev \
+      && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
-RUN pip install rasa[full] asgiref  # Ensure Rasa and async helpers are installed
+# Copy requirements first for better layer caching
+COPY requirements.txt .
 
-# Expose ports for Django and Rasa
-EXPOSE 8000 5005 5055
+# Upgrade pip/build tools then install dependencies
+RUN python -m pip install --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Start Django + Rasa
-CMD bash -c "\
-python manage.py migrate && \
-python manage.py collectstatic --noinput && \
-rasa run --enable-api --cors '*' --port 5005 & \
-rasa run actions --port 5055 & \
-gunicorn ChopDeck.wsgi:application --bind 0.0.0.0:8000"
+# Copy the rest of the app
+COPY . .
+
+# Expose default port and set command (adjust Gunicorn/project path if different)
+EXPOSE 8000
+CMD ["gunicorn", "ChopDeck.wsgi:application", "--bind", "0.0.0.0:8000"]
