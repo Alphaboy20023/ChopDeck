@@ -1,6 +1,6 @@
-    #!/bin/bash
-    rasa run actions --port 5055 &
-    rasa run --enable-api --cors "*" --port $PORT --debug
+#!/bin/bash
+# Start actions server in background
+rasa run actions --port 5055 &
 
-    # Keep container running
-    wait
+# Start Rasa server in foreground
+exec rasa run --enable-api --cors "*" --port $PORT --debug

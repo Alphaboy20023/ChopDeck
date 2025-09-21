@@ -9,7 +9,9 @@ COPY . .
 
 RUN rasa train
 
+RUN chmod +x ./start.sh
 USER 1001
+
 EXPOSE $PORT
 
 # Use environment variable PORT that Render provides
