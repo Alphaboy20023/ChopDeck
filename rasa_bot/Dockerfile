@@ -1,15 +1,16 @@
 FROM rasa/rasa:3.6.0
 WORKDIR /app
 
-# Copy requirements and install additional packages
 COPY requirements.txt .
 USER root
 RUN pip install -r requirements.txt
+RUN pip install "sqlalchemy<2.0"  # Fix SQLAlchemy warning
 COPY . .
 
-# Train the model
 RUN rasa train
 
 USER 1001
-EXPOSE 5005 5055
-CMD ["rasa", "run", "--enable-api", "--cors", "*"]
+EXPOSE 5005
+
+# Use environment variable PORT that Render provides
+CMD rasa run --enable-api --cors "*" --port $PORT
