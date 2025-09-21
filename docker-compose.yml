@@ -2,26 +2,21 @@ version: '3.8'
 
 services:
   django:
-    image: python:3.11-slim
+    build: ./ChopDeck
     container_name: chopdeck_django
-    working_dir: /app
-    volumes:
-      - ./ChopDeck:/app
-    command: bash -c "pip install -r ChopDeck/requirements.txt && python ChopDeck/manage.py migrate && python ChopDeck/manage.py runserver 0.0.0.0:8000"
     ports:
       - "8000:8000"
     env_file:
       - .env
-    depends_on:
-      - rasa
-
+    environment:
+      - RASA_API_URL=http://rasa:5005
+  
   rasa:
-    image: rasa/rasa:3.6.0
+    build: ./rasa_bot
     container_name: chopdeck_rasa
-    working_dir: /app
-    volumes:
-      - ./ChopDeck/rasa_bot:/app
-    command: >
-      sh -c "rasa train && rasa run --enable-api --cors '*' --debug"
     ports:
       - "5005:5005"
+      - "5055:5055"
+    command: >
+      sh -c "rasa run actions --port 5055 & 
+             rasa run --enable-api --cors '*' --port 5005"

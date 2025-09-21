@@ -1,15 +1,13 @@
-# Use a slim Python 3.10 image
-FROM python:3.10.14-slim
+FROM python:3.11-slim
 
 ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 
-# Install system build deps needed for many ML packages
+# Install only necessary system dependencies (removed ML packages)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-      build-essential gcc git curl ca-certificates \
-      libffi-dev libssl-dev libsndfile1 libatlas-base-dev libblas-dev liblapack-dev \
-      && rm -rf /var/lib/apt/lists/*
+      build-essential gcc curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements first for better layer caching
 COPY requirements.txt .
@@ -21,6 +19,11 @@ RUN python -m pip install --upgrade pip setuptools wheel && \
 # Copy the rest of the app
 COPY . .
 
-# Expose default port and set command (adjust Gunicorn/project path if different)
+# Collect static files for production
+RUN python manage.py collectstatic --noinput --clear
+
+# Expose port
 EXPOSE 8000
-CMD ["gunicorn", "ChopDeck.wsgi:application", "--bind", "0.0.0.0:8000"]
+
+# Use gunicorn for production
+CMD ["gunicorn", "ChopDeck.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
