@@ -5,9 +5,5 @@ services:
     plan: free
     dockerComposeFilePath: ./docker-compose.yml
     buildCommand: |
-      pip install --upgrade pip setuptools wheel
-      pip install -r requirements.txt
+      pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
     startCommand: gunicorn ChopDeck.wsgi:application
-    envVars:
-      - key: PYTHON_VERSION
-        value: 3.10.14
