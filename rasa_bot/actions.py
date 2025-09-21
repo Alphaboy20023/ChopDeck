@@ -9,7 +9,7 @@ sys.path.append(r"C:\Users\timiv\Desktop\ChopDeckFoodApp\ChopDeck")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ChopDeck.settings")
 django.setup()
 
-from ChopDeckApp.models import FoodItem
+from ChopDeck.ChopDeckApp.models import FoodItem
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
