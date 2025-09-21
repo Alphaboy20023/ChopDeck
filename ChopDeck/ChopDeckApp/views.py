@@ -17,6 +17,8 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from django.db.models import Q
 import requests
 from django.conf import settings
+import json
+
 
 
 # Create your views here.
@@ -359,6 +361,38 @@ def search_food(request):
     }
     
     return render(request, 'search.html', context)
+
+@csrf_exempt
+def chat_proxy(request):
+    if request.method == 'POST':
+        try:
+            user_message = json.loads(request.body).get('message', '')
+            
+            response = requests.post(
+                'https://rasa-bot-eurw.onrender.com/webhooks/rest/webhook',
+                json={'sender': 'frontend-user', 'message': user_message},
+                timeout=10
+            )
+            
+            if response.status_code == 200:
+                return JsonResponse(response.json(), safe=False)
+            else:
+                return JsonResponse({'error': 'Rasa service error'}, status=500)
+                
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+@csrf_exempt
+def api_food_items(request):
+    if request.method == 'GET':
+        try:
+            food_items = list(FoodItem.objects.filter(is_available=True).values('id', 'title', 'price', 'description'))
+            return JsonResponse({'food_items': food_items})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 def register (request):
     if request.method == 'POST':

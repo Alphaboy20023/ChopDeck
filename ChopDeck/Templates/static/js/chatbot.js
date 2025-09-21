@@ -32,24 +32,33 @@ async function sendMessage() {
   if (!message) return;
 
   appendMessage("user", message);
-  chatInput.value="";
+  chatInput.value = "";
 
   try {
-    // https://rasa-bot-eurw.onrender.com/webhooks/rest/webhook
-    const response = await fetch("https://rasa-bot-eurw.onrender.com/webhooks/rest/webhook", {
+    const response = await fetch("/api/chat/", {  // Call Django instead
       method: "POST",
-      headers: { "Content-Type": "application/json"},
-      body: JSON.stringify({sender: "frontend-user", message}),
+      headers: { 
+        "Content-Type": "application/json",
+        // "X-CSRFToken": getCookie('csrftoken') 
+      },
+      body: JSON.stringify({message}),
     });
 
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
     const data = await response.json();
-    data.forEach(msg => {
-      if (msg.text) {
-        appendMessage("bot", msg.text);
-      }
-    });
+    if (data && data.length > 0) {
+      data.forEach(msg => {
+        if (msg.text) {
+          appendMessage("bot", msg.text);
+        }
+      });
+    }
   } catch (err) {
-    appendMessage("bot", "could not connect to the server")
+    console.error("Error:", err);
+    appendMessage("bot", "Could not connect to the server");
   }
 }
 
