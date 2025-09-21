@@ -13,4 +13,4 @@ USER 1001
 EXPOSE $PORT
 
 # Use environment variable PORT that Render provides
-CMD rasa run --enable-api --cors "*" --port $PORT --debug
+CMD ["./start.sh"]
