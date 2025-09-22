@@ -1,1 +1,0 @@
-worker: cd rasa_bot && rasa run actions --port 5055
