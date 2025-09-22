@@ -22,11 +22,10 @@
 #!/bin/bash
 set -e
 
-echo "=== Starting Actions Server on port 5055 ==="
-rasa run actions --port 5055 --debug &
+# echo "=== Starting Actions Server on port 5055 ==="
+# rasa run actions --port 5055 --debug &
 
-echo "=== Waiting for actions server ==="
-sleep 5
+echo "=== Starting ONLY Main Rasa Server on port $PORT ==="
 
 echo "=== Starting Main Rasa Server on port $PORT ==="
 rasa run \
