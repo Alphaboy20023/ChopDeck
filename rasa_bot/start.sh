@@ -12,6 +12,7 @@ rasa run \
   --port $PORT \
   --interface 0.0.0.0 \
   --model models/20250922-135732-brass-music.tar.gz \
+  --credentials credentials.yml \
   --debug
 
 # Keep container alive
