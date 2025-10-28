@@ -347,7 +347,7 @@ def payment_failed(request):
     return render(request, 'payment_failed.html')
 
 def search_food(request):
-    query = request.GET.get("q", "").strip() # dont understand
+    query = request.GET.get("q", "").strip() # search, q is parameter, empty " " is for name of product
     
     food_items = FoodItem.objects.filter(is_available=True,).select_related("category")
     categories = Category.objects.all()
