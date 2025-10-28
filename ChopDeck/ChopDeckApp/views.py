@@ -288,17 +288,19 @@ def payment_view(request, order_id):
         "amount": int(order.total * 100),  # amount in kobo
         "email": order.email,
         "reference": f"order_{order.id}_{int(time.time())}",
-        "callback_url": request.build_absolute_uri(reverse('payment_callback')),
+        "callback_url": f"{settings.SITE_URL}{reverse('payment_callback')}",
     }
 
     try:
         response = requests.post(url, json=data, headers=headers)
         response_data = response.json()
-        print("PAYSTACK RESPONSE:", response_data)
+        # print("PAYSTACK RESPONSE:", response_data)
 
         if response_data.get('status') and 'authorization_url' in response_data['data']:
             order.payment_reference = data['reference']
             order.save()
+            # print("CALLBACK URL:", data['callback_url'])
+            # print("AUTH URL:", response_data['data']['authorization_url'])
             print("Redirecting to Paystack...")
             return redirect(response_data['data']['authorization_url'])
         else:
@@ -341,7 +343,8 @@ def payment_callback(request):
     
     return redirect('checkout')
 
-
+def payment_failed(request):
+    return render(request, 'payment_failed.html')
 
 def search_food(request):
     query = request.GET.get("q", "").strip() # dont understand

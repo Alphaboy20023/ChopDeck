@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-&odgdgdge65763gdvdbvnbdsnmskjs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['chopdeck-9afj.onrender.com', '127.0.0.1']
+ALLOWED_HOSTS = ['chopdeck-9afj.onrender.com', '127.0.0.1', 'localhost:8000']
 
 
 # Application definition
@@ -133,6 +133,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Paystack settings
 PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY')
 PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY')
+
+SITE_URL = os.environ.get('SITE_URL', 'http://localhost:8000')
+
+# SITE_URL=https://yourdomain.com
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Internationalization
