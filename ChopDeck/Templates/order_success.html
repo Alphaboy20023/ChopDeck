@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Successful</title>
+  <meta http-equiv="refresh" content="5;url=/checkout/" />
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f5f6fa;
+      font-family: sans-serif;
+    }
+    .success-box {
+      text-align: center;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .success-box h1 {
+      color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <div class="success-box">
+    <h1>✅ Payment Successful!</h1>
+    <p>Your order #{{ order.id }} was completed successfully.</p>
+    <p>You’ll be redirected to checkout in <strong>5 seconds</strong>.</p>
+    <a href="/checkout/">Go now</a>
+  </div>
+</body>
+</html>

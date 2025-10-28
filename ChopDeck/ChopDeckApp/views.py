@@ -346,6 +346,13 @@ def payment_callback(request):
 def payment_failed(request):
     return render(request, 'payment_failed.html')
 
+def order_success(request, order_id):
+    """
+    Renders a 'payment successful' page that auto-redirects to checkout after 5s.
+    """
+    order = Order.objects.get(id=order_id)
+    return render(request, 'order_success.html', {'order': order})
+
 def search_food(request):
     query = request.GET.get("q", "").strip() # search, q is parameter, empty " " is for name of product
     
