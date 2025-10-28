@@ -134,8 +134,8 @@ AUTH_PASSWORD_VALIDATORS = [
 PAYSTACK_PUBLIC_KEY = os.getenv('PAYSTACK_PUBLIC_KEY')
 PAYSTACK_SECRET_KEY = os.getenv('PAYSTACK_SECRET_KEY')
 
-# SITE_URL = os.environ.get('SITE_URL', 'http://localhost:8000')
-SITE_URL = ('http://localhost:8000')
+SITE_URL = os.environ.get('SITE_URL', 'http://localhost:8000')
+# SITE_URL = ('http://localhost:8000')
 
 # SITE_URL=https://yourdomain.com
 USE_X_FORWARDED_HOST = True

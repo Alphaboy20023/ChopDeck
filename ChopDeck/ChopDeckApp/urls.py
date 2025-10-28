@@ -18,9 +18,12 @@ urlpatterns = [
     path("cart/update/<int:food_id>/", views.update_cart, name="update-cart"),
     path('checkout/', views.checkout, name = 'checkout'),
     path('payment/', views.payment_view, name='payment'),
+    # paystack
     path('payment/<int:order_id>/', views.payment_view, name='payment'),
     path('payment_failed/', views.payment_failed, name='payment_failed'),
     path('order_success/<int:order_id>/', views.order_success, name='order_success'),
+    # cash or paystack
+    path('initiate-payment/<int:order_id>/', views.initiate_payment, name='initiate_payment'),
     path('payment/callback/', views.payment_callback, name='payment_callback'),
     path('contact/', views.contact_us, name = 'contact'),
     path('search/', views.search_food, name = 'search'),

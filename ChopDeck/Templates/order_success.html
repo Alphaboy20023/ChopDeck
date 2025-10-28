@@ -1,36 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Payment Successful</title>
-  <meta http-equiv="refresh" content="5;url=/checkout/" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Success</title>
   <style>
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #f5f6fa;
-      font-family: sans-serif;
-    }
-    .success-box {
+      font-family: Arial, sans-serif;
       text-align: center;
-      background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background: #f8f9fa;
+      margin: 0;
+      padding: 5rem 1rem;
+      color: #333;
     }
-    .success-box h1 {
+
+    .success {
+      font-size: 1.5rem;
       color: #28a745;
+      font-weight: bold;
+    }
+
+    .message {
+      margin-top: 1rem;
+    }
+
+    .spinner {
+      border: 3px solid #eee;
+      border-top: 3px solid #28a745;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin: 2rem auto;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
-  <div class="success-box">
-    <h1>✅ Payment Successful!</h1>
-    <p>Your order #{{ order.id }} was completed successfully.</p>
-    <p>You’ll be redirected to checkout in <strong>5 seconds</strong>.</p>
-    <a href="/checkout/">Go now</a>
-  </div>
+
+  {% if order and payment and payment.method == 'paystack' %}
+    <div class="success">✅ Payment Successful!</div>
+    <p class="message">Your order #{{ order.id }} has been confirmed via Paystack.</p>
+
+  {% elif order and payment and payment.method == 'cash' %}
+    <div class="success">💵 Order Placed Successfully!</div>
+    <p class="message">Order #{{ order.id }} has been created. Please pay the dispatcher on delivery.</p>
+
+  {% else %}
+    <div class="success">⚠️ Order Details Not Found</div>
+    <p class="message">Redirecting back to checkout...</p>
+  {% endif %}
+
+  <p>You will be redirected back to checkout in a few seconds, you can keep an eye on your order in the orders page</p>
+  <div class="spinner"></div>
+
+  <script>
+    setTimeout(() => {
+      window.location.href = "{% url 'checkout' %}";
+    //   redirect after 8s
+    }, 8000);
+  </script>
+
 </body>
 </html>

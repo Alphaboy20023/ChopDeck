@@ -209,7 +209,6 @@ def checkout(request):
         formatted_total = f"₦ {intcomma(int(total))}"
         
         
-
         cart_items.append({
             "id": product_id,
             "title": food.title,
@@ -231,7 +230,7 @@ def checkout(request):
     formatted_grand_total = f"₦ {intcomma(int(grand_total))}"
     
     PAYMENT_METHODS = [
-        ('card', 'Card'),
+        ('paystack', 'Paystack'),
         ('cash', 'Cash'),
     ]
     
@@ -258,10 +257,24 @@ def checkout(request):
         payment_status="initiated", # optional
         )
         
-        print(full_name, phone, email, address, message, payment_method)
-        return redirect("payment", order_id=order.id)
+        payment = Payment.objects.create(
+            order=order,
+            amount=grand_total,
+            method=payment_method,
+        )
         
-    
+        request.session["cart"] = {}
+        
+        if payment_method == "paystack":
+            print(full_name, phone, email, address, message, payment_method)
+            return redirect("payment", order_id=order.id)
+        else:
+            # For cash payments — directly show success page
+            messages.success(request, "💵 Order placed successfully! Pay on delivery.")
+            print(full_name, phone, email, address, message, payment_method)
+            return redirect("order_success", order_id=order.id)
+        
+
     context = {
         "cart_items": cart_items,
         "sub_total": formatted_sub_total,
@@ -270,9 +283,39 @@ def checkout(request):
         "payment_methods": PAYMENT_METHODS,
         "success_message": success_message,
     }
-    
-    
+     
     return render(request, 'checkout.html', context)
+
+def initiate_payment(request, order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        payment = Payment.objects.get(order=order)
+        
+        if payment.method == 'paystack':
+            # Redirect to Paystack gateway
+            return redirect('payment_view', order_id=order.id)
+        
+        elif payment.method == 'cash':
+            # Mark as "awaiting payment"
+            order.status = 'pending'
+            order.payment_status = 'awaiting_cash_payment'
+            order.save()
+
+            messages.info(
+                request,
+                "Your order has been placed successfully. "
+                "Please pay the dispatcher when you receive your package."
+            )
+            return redirect('order_success', order_id=order.id)
+        
+    except Order.DoesNotExist:
+        messages.error(request, "Order not found.")
+        return redirect('checkout')
+    
+    except Payment.DoesNotExist:
+        messages.error(request, "Payment details not found for this order.")
+        return redirect('checkout')
+        
 
 def payment_view(request, order_id):
     order = get_object_or_404(Order, id=order_id)
@@ -346,12 +389,24 @@ def payment_callback(request):
 def payment_failed(request):
     return render(request, 'payment_failed.html')
 
+
 def order_success(request, order_id):
-    """
-    Renders a 'payment successful' page that auto-redirects to checkout after 5s.
-    """
-    order = Order.objects.get(id=order_id)
-    return render(request, 'order_success.html', {'order': order})
+    order = get_object_or_404(Order, id=order_id)
+    payment = Payment.objects.filter(order=order).first()
+
+    if payment and payment.method == "paystack":
+        message = "✅ Payment successful via Paystack! Your order is confirmed."
+    elif payment and payment.method == "cash":
+        message = "💵 Order placed successfully! Please pay upon delivery."
+    else:
+        message = "⚠️ Order Details Not Found"
+
+    return render(request, "order_success.html", {
+        "order": order,
+        "payment": payment,
+        "message": message
+    })
+
 
 def search_food(request):
     query = request.GET.get("q", "").strip() # search, q is parameter, empty " " is for name of product
